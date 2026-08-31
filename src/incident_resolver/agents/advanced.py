@@ -42,13 +42,17 @@ Do not invent evidence beyond what is listed. Base your diagnosis only on it.
 
 Respond with ONLY a JSON object, no prose, no markdown fences:
 {
-  "root_cause": "short_snake_case_label",
+  "root_cause": "canonical short_snake_case label; preserve the exact technical terminology used in the evidence when naming the root cause; do not paraphrase, generalize, or invent synonyms",
   "supporting_evidence_indices": [0, 2, 3],
   "confidence": 0.0-1.0,
   "severity": "low"|"medium"|"high"|"critical",
   "recommended_action": "short imperative string",
   "risk": "low"|"medium"|"high"|"critical"
 }
+The root_cause value is evaluated against a canonical benchmark label.
+Prefer the most specific terminology directly supported by the evidence.
+For example, if the evidence refers to "db_connection_pool_exhaustion",
+use "db_connection_pool_exhaustion", not "database_connection_pool_exhaustion".
 """
 
 VERIFY_SYSTEM_PROMPT = """You are a skeptical senior engineer reviewing a junior engineer's incident diagnosis.

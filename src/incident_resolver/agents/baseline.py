@@ -54,8 +54,26 @@ def run_baseline(incident: Incident, client: LLMClient | None = None) -> AgentRe
     client = client or LLMClient()
     user_prompt = _build_prompt(incident)
 
-    response = client.complete(system=SYSTEM_PROMPT, user=user_prompt, json_mode=True)
-    parsed = LLMClient.parse_json(response.text)
+    total_latency = 0.0
+    response = None
+    parsed = None
+
+    for _ in range(2):
+        response = client.complete(
+            system=SYSTEM_PROMPT,
+            user=user_prompt,
+            json_mode=True,
+        )
+        total_latency += response.latency_seconds
+
+        try:
+            parsed = LLMClient.parse_json(response.text)
+            break
+        except (ValueError, TypeError):
+            continue
+
+    if parsed is None or response is None:
+        raise RuntimeError(f"Baseline failed to obtain valid JSON for {incident.id}")
 
     diagnosis = Diagnosis(
         incident_id=incident.id,
@@ -78,7 +96,7 @@ def run_baseline(incident: Incident, client: LLMClient | None = None) -> AgentRe
         agent_name="baseline",
         diagnosis=diagnosis,
         remediation=remediation,
-        latency_seconds=response.latency_seconds,
+        latency_seconds=total_latency,
         raw_trajectory=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},

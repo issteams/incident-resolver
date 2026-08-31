@@ -86,7 +86,19 @@ class LLMClient:
 
         start = time.monotonic()
         with httpx.Client(timeout=self.timeout) as client:
-            resp = client.post(self.base_url, headers=headers, json=payload)
+            resp: Any = None
+            for attempt in range(4):
+                resp = client.post(
+                    self.base_url,
+                    headers=headers,
+                    json=payload,
+                )
+
+                if resp.status_code != 429:
+                    break
+
+                if attempt < 3:
+                    time.sleep(2 ** attempt)
         latency = time.monotonic() - start
 
         resp.raise_for_status()
@@ -99,6 +111,9 @@ class LLMClient:
         """Strip ```json fences if present and parse. Raises on failure —
         callers should treat a parse failure as an agent error, not silently
         swallow it (this matters for the accuracy metric)."""
+        if not isinstance(text, str) or not text.strip():
+            raise ValueError("LLM returned empty JSON content")
+
         cleaned = text.strip()
         if cleaned.startswith("```"):
             cleaned = cleaned.strip("`")

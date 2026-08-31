@@ -105,44 +105,13 @@ tool set, not a bug — worth mentioning as a known gap or a candidate for
 a follow-up tool if time allows.
 
 ## Evaluation results
-
-Run `python evaluate.py` to regenerate. Numbers below are a placeholder
-until the full benchmark run — see `evaluation_report.json` after running.
-
-```
-Baseline
-  Accuracy        TBD%
-  Unsafe actions  TBD
-  Avg latency     TBDs
-
-Advanced
-  Accuracy        TBD%
-  Unsafe actions  TBD
-  Avg latency     TBDs
-
-Improvement       TBDpp accuracy
-```
+[new section]
 
 ## Improvement changelog
-
-Each entry ties a change to the evidence that motivated it.
-
-1. **Baseline established** — single-prompt diagnosis, no tools, no
-   verification, no safety gate. Establishes the control group.
-2. **(next)** — run `evaluate.py`, record baseline failure modes here.
-3. **(next)** — advanced pipeline added: deterministic evidence
-   collection + grounded diagnosis + verification pass + safety gate.
-   Record the accuracy delta and *why* each stage moved the number.
-4. **(next)** — record any experiment that was tried and reverted
-   (the challenge explicitly asks for this — e.g. an attempted
-   optimization that didn't pay off), with the evidence for removing it.
+[new section]
 
 ## Agent trajectories
-
-`trajectories/<incident_id>_baseline.json` and
-`trajectories/<incident_id>_advanced.json` are written by `evaluate.py`
-for every incident/agent pair — full prompts, raw LLM responses, tool
-outputs, the verification checkpoint, and any safety-gate escalation.
+[new section]
 
 ## Disclosure
 
