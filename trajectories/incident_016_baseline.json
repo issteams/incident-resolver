@@ -1,0 +1,52 @@
+{
+  "incident_id": "incident_016",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_016",
+    "root_cause": "poison_message",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "json.JSONDecodeError: malformed message, worker retrying indefinitely",
+        "supports": "poison_message"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "queue depth growing, no messages processed in 15 minutes",
+        "supports": "poison_message"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "error_rate = 1.0",
+        "supports": "poison_message"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "retry_count = 999",
+        "supports": "poison_message"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "critical"
+  },
+  "remediation": {
+    "action": "Identify and remove poison message from queue, deploy dead-letter queue for future malformed messages",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 1.6377309010003955,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: events-worker\nSummary: Single poison message stalling entire queue consumer\n\nLogs:\n  [2026-08-30T09:30:00Z] INFO: events-worker consuming queue normally\n  [2026-08-30T09:35:00Z] ERROR: json.JSONDecodeError: malformed message, worker retrying indefinitely\n  [2026-08-30T09:50:00Z] WARN: queue depth growing, no messages processed in 15 minutes\n\nMetrics:\n  error_rate = 1.0\n  cpu_percent = 5.0%\n\nConfig:\n  retry_count = 999\n\nRecent deployments:\n\nEnvironment:\n  region = us-east-1\n  replicas = 2"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"poison_message\",\n  \"evidence\": [\n    \"json.JSONDecodeError: malformed message, worker retrying indefinitely\",\n    \"queue depth growing, no messages processed in 15 minutes\",\n    \"error_rate = 1.0\",\n    \"retry_count = 999\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"Identify and remove poison message from queue, deploy dead-letter queue for future malformed messages\",\n  \"risk\": \"high\"\n}"
+    }
+  ]
+}

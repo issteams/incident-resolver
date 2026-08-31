@@ -1,0 +1,52 @@
+{
+  "incident_id": "incident_018",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_018",
+    "root_cause": "unexpected_traffic_spike",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "inbound request rate 10x baseline from partner_id=acme_corp",
+        "supports": "unexpected_traffic_spike"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "request queue saturated, dropping requests from all partners",
+        "supports": "unexpected_traffic_spike"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "error_rate = 0.35",
+        "supports": "unexpected_traffic_spike"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "cpu_percent = 88.0%",
+        "supports": "unexpected_traffic_spike"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "high"
+  },
+  "remediation": {
+    "action": "throttle traffic from acme_corp and scale webhook-receiver",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 3.1858752930002083,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: webhook-receiver\nSummary: Sudden 10x spike in inbound webhook traffic from one partner, service degraded\n\nLogs:\n  [2026-08-30T15:00:00Z] INFO: webhook-receiver healthy\n  [2026-08-30T15:05:00Z] WARN: inbound request rate 10x baseline from partner_id=acme_corp\n  [2026-08-30T15:07:00Z] ERROR: request queue saturated, dropping requests from all partners\n\nMetrics:\n  error_rate = 0.35\n  cpu_percent = 88.0%\n\nConfig:\n\nRecent deployments:\n\nEnvironment:\n  region = us-east-1\n  replicas = 3"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"unexpected_traffic_spike\",\n  \"evidence\": [\n    \"inbound request rate 10x baseline from partner_id=acme_corp\",\n    \"request queue saturated, dropping requests from all partners\",\n    \"error_rate = 0.35\",\n    \"cpu_percent = 88.0%\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"throttle traffic from acme_corp and scale webhook-receiver\",\n  \"risk\": \"high\"\n}"
+    }
+  ]
+}

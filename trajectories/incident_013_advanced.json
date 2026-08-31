@@ -1,0 +1,65 @@
+{
+  "incident_id": "incident_013",
+  "agent_name": "advanced",
+  "diagnosis": {
+    "incident_id": "incident_013",
+    "root_cause": "missing_distributed_lock",
+    "evidence": [
+      {
+        "source": "history_search",
+        "finding": "[2026-08-30T00:50:00Z] deploy: scaled cron-scheduler replicas from 1 to 3 without adding a distributed lock (within 0:30:00 of incident)",
+        "supports": "missing_distributed_lock"
+      }
+    ],
+    "confidence": 0.6,
+    "severity": "high"
+  },
+  "remediation": {
+    "action": "add_distributed_lock_to_cron_scheduler",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 4.966648240000723,
+  "raw_trajectory": [
+    {
+      "role": "tool",
+      "step": "evidence_collection",
+      "content": [
+        {
+          "source": "history_search",
+          "finding": "[2026-08-30T00:50:00Z] deploy: scaled cron-scheduler replicas from 1 to 3 without adding a distributed lock (within 0:30:00 of incident)",
+          "supports": ""
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "step": "diagnosis_prompt",
+      "content": "Service: cron-scheduler\nSummary: Duplicate invoices sent to customers overnight\n\nEvidence:\n[0] (history_search) [2026-08-30T00:50:00Z] deploy: scaled cron-scheduler replicas from 1 to 3 without adding a distributed lock (within 0:30:00 of incident)"
+    },
+    {
+      "role": "assistant",
+      "step": "diagnosis_raw",
+      "content": "{\n  \"root_cause\": \"missing_distributed_lock\",\n  \"supporting_evidence_indices\": [0],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"add_distributed_lock_to_cron_scheduler\",\n  \"risk\": \"high\"\n}"
+    },
+    {
+      "role": "user",
+      "step": "verify_prompt",
+      "content": "Evidence:\n[0] (history_search) [2026-08-30T00:50:00Z] deploy: scaled cron-scheduler replicas from 1 to 3 without adding a distributed lock (within 0:30:00 of incident)\n\nProposed diagnosis:\n{\n  \"root_cause\": \"missing_distributed_lock\",\n  \"supporting_evidence_indices\": [\n    0\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"add_distributed_lock_to_cron_scheduler\",\n  \"risk\": \"high\"\n}"
+    },
+    {
+      "role": "assistant",
+      "step": "verify_raw",
+      "content": "{\n  \"verdict\": \"revise\",\n  \"revised_confidence\": 0.6,\n  \"reason\": \"Evidence [0] directly points to the root cause, but it's a single piece of evidence. While strong, more corroborating evidence would be needed for 0.9 confidence.\"\n}"
+    },
+    {
+      "role": "checkpoint",
+      "step": "verification_verdict",
+      "content": {
+        "verdict": "revise",
+        "revised_confidence": 0.6,
+        "reason": "Evidence [0] directly points to the root cause, but it's a single piece of evidence. While strong, more corroborating evidence would be needed for 0.9 confidence."
+      }
+    }
+  ]
+}

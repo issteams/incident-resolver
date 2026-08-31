@@ -1,0 +1,75 @@
+{
+  "incident_id": "incident_017",
+  "agent_name": "advanced",
+  "diagnosis": {
+    "incident_id": "incident_017",
+    "root_cause": "system_clock_skew",
+    "evidence": [
+      {
+        "source": "log_analyzer",
+        "finding": "[2026-08-30T06:10:00Z] ERROR: ValueError: event timestamp is in the future relative to server clock",
+        "supports": "system_clock_skew"
+      },
+      {
+        "source": "metrics_analyzer",
+        "finding": "error_rate = 0.25 (>= threshold 0.05)",
+        "supports": "system_clock_skew"
+      }
+    ],
+    "confidence": 0.6,
+    "severity": "high"
+  },
+  "remediation": {
+    "action": "Synchronize system clocks across services",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 3.963387509000313,
+  "raw_trajectory": [
+    {
+      "role": "tool",
+      "step": "evidence_collection",
+      "content": [
+        {
+          "source": "log_analyzer",
+          "finding": "[2026-08-30T06:10:00Z] ERROR: ValueError: event timestamp is in the future relative to server clock",
+          "supports": ""
+        },
+        {
+          "source": "metrics_analyzer",
+          "finding": "error_rate = 0.25 (>= threshold 0.05)",
+          "supports": ""
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "step": "diagnosis_prompt",
+      "content": "Service: fraud-detection-service\nSummary: Timestamps in event stream inconsistent, fraud scoring producing errors\n\nEvidence:\n[0] (log_analyzer) [2026-08-30T06:10:00Z] ERROR: ValueError: event timestamp is in the future relative to server clock\n[1] (metrics_analyzer) error_rate = 0.25 (>= threshold 0.05)"
+    },
+    {
+      "role": "assistant",
+      "step": "diagnosis_raw",
+      "content": "{\n  \"root_cause\": \"system_clock_skew\",\n  \"supporting_evidence_indices\": [0, 1],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Synchronize system clocks across services\",\n  \"risk\": \"high\"\n}"
+    },
+    {
+      "role": "user",
+      "step": "verify_prompt",
+      "content": "Evidence:\n[0] (log_analyzer) [2026-08-30T06:10:00Z] ERROR: ValueError: event timestamp is in the future relative to server clock\n[1] (metrics_analyzer) error_rate = 0.25 (>= threshold 0.05)\n\nProposed diagnosis:\n{\n  \"root_cause\": \"system_clock_skew\",\n  \"supporting_evidence_indices\": [\n    0,\n    1\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Synchronize system clocks across services\",\n  \"risk\": \"high\"\n}"
+    },
+    {
+      "role": "assistant",
+      "step": "verify_raw",
+      "content": "{\n  \"verdict\": \"revise\",\n  \"revised_confidence\": 0.6,\n  \"reason\": \"Evidence [1] (high error rate) is a symptom, not direct evidence of clock skew. Only [0] directly points to clock skew. Confidence should be lowered due to less direct corroboration.\"\n}"
+    },
+    {
+      "role": "checkpoint",
+      "step": "verification_verdict",
+      "content": {
+        "verdict": "revise",
+        "revised_confidence": 0.6,
+        "reason": "Evidence [1] (high error rate) is a symptom, not direct evidence of clock skew. Only [0] directly points to clock skew. Confidence should be lowered due to less direct corroboration."
+      }
+    }
+  ]
+}

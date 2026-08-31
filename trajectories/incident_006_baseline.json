@@ -1,0 +1,52 @@
+{
+  "incident_id": "incident_006",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_006",
+    "root_cause": "memory_exhaustion",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "MemoryError: unable to allocate array, out of memory",
+        "supports": "memory_exhaustion"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "worker process killed by OOM killer",
+        "supports": "memory_exhaustion"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "memory_percent = 98.0%",
+        "supports": "memory_exhaustion"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "switched report export from streaming to in-memory pandas dataframe",
+        "supports": "memory_exhaustion"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "critical"
+  },
+  "remediation": {
+    "action": "Revert 'switched report export from streaming to in-memory pandas dataframe' deployment",
+    "risk": "low",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 1.637309090000599,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: reporting-api\nSummary: Nightly report generation started failing\n\nLogs:\n  [2026-08-30T02:00:00Z] INFO: reporting-api job started\n  [2026-08-30T02:05:00Z] ERROR: MemoryError: unable to allocate array, out of memory\n  [2026-08-30T02:05:01Z] CRITICAL: worker process killed by OOM killer\n\nMetrics:\n  memory_percent = 98.0%\n  cpu_percent = 60.0%\n\nConfig:\n\nRecent deployments:\n  [2026-08-30T01:50:00Z] deploy: switched report export from streaming to in-memory pandas dataframe\n\nEnvironment:\n  region = us-east-1\n  replicas = 1"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"memory_exhaustion\",\n  \"evidence\": [\n    \"MemoryError: unable to allocate array, out of memory\",\n    \"worker process killed by OOM killer\",\n    \"memory_percent = 98.0%\",\n    \"switched report export from streaming to in-memory pandas dataframe\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"Revert 'switched report export from streaming to in-memory pandas dataframe' deployment\",\n  \"risk\": \"low\"\n}"
+    }
+  ]
+}

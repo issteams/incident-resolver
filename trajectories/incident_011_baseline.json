@@ -1,0 +1,52 @@
+{
+  "incident_id": "incident_011",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_011",
+    "root_cause": "expired_ssl_certificate",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "ERROR: SSL: CERTIFICATE_VERIFY_FAILED: certificate has expired in logs",
+        "supports": "expired_ssl_certificate"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "cert_expiry config value is 2026-08-29T23:59:00Z, which is in the past",
+        "supports": "expired_ssl_certificate"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "Users reporting TLS handshake failures and browser cert warnings",
+        "supports": "expired_ssl_certificate"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "High error_rate (0.55)",
+        "supports": "expired_ssl_certificate"
+      }
+    ],
+    "confidence": 1.0,
+    "severity": "critical"
+  },
+  "remediation": {
+    "action": "Renew and deploy the SSL certificate for webapp-frontend immediately",
+    "risk": "critical",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 1.913334570999723,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: webapp-frontend\nSummary: TLS handshake failures reported by users, browser cert warnings\n\nLogs:\n  [2026-08-30T00:00:00Z] INFO: webapp-frontend healthy\n  [2026-08-30T00:01:00Z] ERROR: SSL: CERTIFICATE_VERIFY_FAILED: certificate has expired\n\nMetrics:\n  error_rate = 0.55\n\nConfig:\n\nRecent deployments:\n\nEnvironment:\n  region = global\n  replicas = 8\n  cert_expiry = 2026-08-29T23:59:00Z"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"expired_ssl_certificate\",\n  \"evidence\": [\n    \"ERROR: SSL: CERTIFICATE_VERIFY_FAILED: certificate has expired in logs\",\n    \"cert_expiry config value is 2026-08-29T23:59:00Z, which is in the past\",\n    \"Users reporting TLS handshake failures and browser cert warnings\",\n    \"High error_rate (0.55)\"\n  ],\n  \"confidence\": 1.0,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"Renew and deploy the SSL certificate for webapp-frontend immediately\",\n  \"risk\": \"critical\"\n}"
+    }
+  ]
+}

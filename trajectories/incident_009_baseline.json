@@ -1,0 +1,42 @@
+{
+  "incident_id": "incident_009",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_009",
+    "root_cause": "disk_full",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "OSError: [Errno 28] No space left on device in logs",
+        "supports": "disk_full"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "disk_usage_percent = 100 in environment",
+        "supports": "disk_full"
+      }
+    ],
+    "confidence": 1.0,
+    "severity": "critical"
+  },
+  "remediation": {
+    "action": "Increase disk space or clear old files",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 1.519688485000188,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: media-upload-service\nSummary: Uploads failing, disk write errors in logs\n\nLogs:\n  [2026-08-30T05:00:00Z] INFO: media-upload-service healthy\n  [2026-08-30T05:40:00Z] ERROR: OSError: [Errno 28] No space left on device\n  [2026-08-30T05:40:05Z] ERROR: OSError: [Errno 28] No space left on device\n\nMetrics:\n  cpu_percent = 15.0%\n\nConfig:\n\nRecent deployments:\n\nEnvironment:\n  region = eu-west-1\n  replicas = 2\n  disk_usage_percent = 100"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"disk_full\",\n  \"evidence\": [\n    \"OSError: [Errno 28] No space left on device in logs\",\n    \"disk_usage_percent = 100 in environment\"\n  ],\n  \"confidence\": 1.0,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"Increase disk space or clear old files\",\n  \"risk\": \"high\"\n}"
+    }
+  ]
+}

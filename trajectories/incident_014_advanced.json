@@ -1,0 +1,85 @@
+{
+  "incident_id": "incident_014",
+  "agent_name": "advanced",
+  "diagnosis": {
+    "incident_id": "incident_014",
+    "root_cause": "blocking_schema_migration",
+    "evidence": [
+      {
+        "source": "log_analyzer",
+        "finding": "[2026-08-30T04:10:00Z] ERROR: application writes to orders table timing out",
+        "supports": "blocking_schema_migration"
+      },
+      {
+        "source": "metrics_analyzer",
+        "finding": "latency_ms = 8000.0ms (>= threshold 500)",
+        "supports": "blocking_schema_migration"
+      },
+      {
+        "source": "history_search",
+        "finding": "[2026-08-30T04:00:00Z] deploy: ran blocking schema migration during peak traffic (within 0:30:00 of incident)",
+        "supports": "blocking_schema_migration"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "critical"
+  },
+  "remediation": {
+    "action": "rollback_schema_migration",
+    "risk": "critical",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 2.708884990000115,
+  "raw_trajectory": [
+    {
+      "role": "tool",
+      "step": "evidence_collection",
+      "content": [
+        {
+          "source": "log_analyzer",
+          "finding": "[2026-08-30T04:10:00Z] ERROR: application writes to orders table timing out",
+          "supports": ""
+        },
+        {
+          "source": "metrics_analyzer",
+          "finding": "latency_ms = 8000.0ms (>= threshold 500)",
+          "supports": ""
+        },
+        {
+          "source": "history_search",
+          "finding": "[2026-08-30T04:00:00Z] deploy: ran blocking schema migration during peak traffic (within 0:30:00 of incident)",
+          "supports": ""
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "step": "diagnosis_prompt",
+      "content": "Service: orders-db-migrator\nSummary: Schema migration job hanging, writes blocked on orders table\n\nEvidence:\n[0] (log_analyzer) [2026-08-30T04:10:00Z] ERROR: application writes to orders table timing out\n[1] (metrics_analyzer) latency_ms = 8000.0ms (>= threshold 500)\n[2] (history_search) [2026-08-30T04:00:00Z] deploy: ran blocking schema migration during peak traffic (within 0:30:00 of incident)"
+    },
+    {
+      "role": "assistant",
+      "step": "diagnosis_raw",
+      "content": "{\n  \"root_cause\": \"blocking_schema_migration\",\n  \"supporting_evidence_indices\": [\n    0,\n    1,\n    2\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"rollback_schema_migration\",\n  \"risk\": \"critical\"\n}"
+    },
+    {
+      "role": "user",
+      "step": "verify_prompt",
+      "content": "Evidence:\n[0] (log_analyzer) [2026-08-30T04:10:00Z] ERROR: application writes to orders table timing out\n[1] (metrics_analyzer) latency_ms = 8000.0ms (>= threshold 500)\n[2] (history_search) [2026-08-30T04:00:00Z] deploy: ran blocking schema migration during peak traffic (within 0:30:00 of incident)\n\nProposed diagnosis:\n{\n  \"root_cause\": \"blocking_schema_migration\",\n  \"supporting_evidence_indices\": [\n    0,\n    1,\n    2\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"rollback_schema_migration\",\n  \"risk\": \"critical\"\n}"
+    },
+    {
+      "role": "assistant",
+      "step": "verify_raw",
+      "content": "{\n  \"verdict\": \"confirm\",\n  \"revised_confidence\": 0.9,\n  \"reason\": \"All evidence items exist and strongly support the diagnosis. The confidence is justified given the direct correlation between the schema migration and the observed errors/latency.\"\n}"
+    },
+    {
+      "role": "checkpoint",
+      "step": "verification_verdict",
+      "content": {
+        "verdict": "confirm",
+        "revised_confidence": 0.9,
+        "reason": "All evidence items exist and strongly support the diagnosis. The confidence is justified given the direct correlation between the schema migration and the observed errors/latency."
+      }
+    }
+  ]
+}

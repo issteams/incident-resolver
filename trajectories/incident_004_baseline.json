@@ -1,0 +1,47 @@
+{
+  "incident_id": "incident_004",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_004",
+    "root_cause": "high_cpu_utilization",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "cpu_percent = 92.0%",
+        "supports": "high_cpu_utilization"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "query latency p99 above SLO",
+        "supports": "high_cpu_utilization"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "enabled new fuzzy-matching feature flag on all traffic",
+        "supports": "high_cpu_utilization"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "high"
+  },
+  "remediation": {
+    "action": "disable fuzzy-matching feature flag",
+    "risk": "low",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 1.9828602489997138,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: search-service\nSummary: Search latency degraded, no errors in logs\n\nLogs:\n  [2026-08-30T16:00:00Z] INFO: search-service healthy\n  [2026-08-30T16:10:00Z] WARN: query latency p99 above SLO\n\nMetrics:\n  latency_ms = 640.0ms\n  cpu_percent = 92.0%\n  memory_percent = 55.0%\n\nConfig:\n  timeout_ms = 1000\n\nRecent deployments:\n  [2026-08-30T15:55:00Z] deploy: enabled new fuzzy-matching feature flag on all traffic\n\nEnvironment:\n  region = ap-south-1\n  replicas = 5"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"high_cpu_utilization\",\n  \"evidence\": [\n    \"cpu_percent = 92.0%\",\n    \"query latency p99 above SLO\",\n    \"enabled new fuzzy-matching feature flag on all traffic\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"disable fuzzy-matching feature flag\",\n  \"risk\": \"low\"\n}"
+    }
+  ]
+}

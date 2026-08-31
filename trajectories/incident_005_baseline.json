@@ -1,0 +1,47 @@
+{
+  "incident_id": "incident_005",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_005",
+    "root_cause": "downstream_dependency_failure",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "ERROR: circuit breaker OPEN for downstream email provider",
+        "supports": "downstream_dependency_failure"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "queue depth 15000 and rising",
+        "supports": "downstream_dependency_failure"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "cpu_percent = 8.0%",
+        "supports": "downstream_dependency_failure"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "critical"
+  },
+  "remediation": {
+    "action": "Investigate and resolve downstream email provider outage",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 1.5844424970000546,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: notification-worker\nSummary: Queue backlog growing, workers appear idle\n\nLogs:\n  [2026-08-30T08:00:00Z] INFO: notification-worker started, consuming from queue\n  [2026-08-30T08:20:00Z] WARN: queue depth 15000 and rising\n  [2026-08-30T08:21:00Z] ERROR: circuit breaker OPEN for downstream email provider\n\nMetrics:\n  error_rate = 0.02\n  cpu_percent = 8.0%\n\nConfig:\n  circuit_breaker_enabled = true\n  retry_count = 5\n\nRecent deployments:\n\nEnvironment:\n  region = us-west-2\n  replicas = 2"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"downstream_dependency_failure\",\n  \"evidence\": [\n    \"ERROR: circuit breaker OPEN for downstream email provider\",\n    \"queue depth 15000 and rising\",\n    \"cpu_percent = 8.0%\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"Investigate and resolve downstream email provider outage\",\n  \"risk\": \"high\"\n}"
+    }
+  ]
+}

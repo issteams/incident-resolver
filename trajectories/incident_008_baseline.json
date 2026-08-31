@@ -1,0 +1,42 @@
+{
+  "incident_id": "incident_008",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_008",
+    "root_cause": "dns_propagation_failure",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "socket.gaierror: Name or service not known: inventory-service.internal",
+        "supports": "dns_propagation_failure"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "infra change: migrated internal DNS zone, some service records not yet propagated",
+        "supports": "dns_propagation_failure"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "critical"
+  },
+  "remediation": {
+    "action": "Rollback DNS zone migration or manually propagate inventory-service DNS records",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 1.8384986109995225,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: api-gateway\nSummary: All downstream calls to inventory-service failing with DNS errors\n\nLogs:\n  [2026-08-30T12:00:00Z] INFO: api-gateway healthy\n  [2026-08-30T12:15:03Z] ERROR: socket.gaierror: Name or service not known: inventory-service.internal\n  [2026-08-30T12:15:10Z] ERROR: socket.gaierror: Name or service not known: inventory-service.internal\n\nMetrics:\n  error_rate = 0.72\n\nConfig:\n  timeout_ms = 2000\n\nRecent deployments:\n  [2026-08-30T12:10:00Z] infra change: migrated internal DNS zone, some service records not yet propagated\n\nEnvironment:\n  region = us-east-1\n  replicas = 4"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"dns_propagation_failure\",\n  \"evidence\": [\n    \"socket.gaierror: Name or service not known: inventory-service.internal\",\n    \"infra change: migrated internal DNS zone, some service records not yet propagated\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"Rollback DNS zone migration or manually propagate inventory-service DNS records\",\n  \"risk\": \"high\"\n}"
+    }
+  ]
+}

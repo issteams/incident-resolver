@@ -1,0 +1,47 @@
+{
+  "incident_id": "incident_019",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_019",
+    "root_cause": "autoscaler_max_instances_too_low",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "ERROR: autoscaler: max_instances limit (2) reached, cannot scale further",
+        "supports": "autoscaler_max_instances_too_low"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "deploy: autoscaling group max_instances left at old default of 2 after traffic tripled last quarter",
+        "supports": "autoscaler_max_instances_too_low"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "replicas = 2",
+        "supports": "autoscaler_max_instances_too_low"
+      }
+    ],
+    "confidence": 1.0,
+    "severity": "high"
+  },
+  "remediation": {
+    "action": "increase_autoscaling_group_max_instances",
+    "risk": "low",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 1.689855630999773,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: video-transcode-worker\nSummary: Autoscaler not adding capacity despite backlog\n\nLogs:\n  [2026-08-30T11:00:00Z] INFO: video-transcode-worker consuming jobs\n  [2026-08-30T11:20:00Z] WARN: job backlog at 500, no new instances launched\n  [2026-08-30T11:25:00Z] ERROR: autoscaler: max_instances limit (2) reached, cannot scale further\n\nMetrics:\n  cpu_percent = 97.0%\n\nConfig:\n  max_connections = 2\n\nRecent deployments:\n  [2026-08-30T10:00:00Z] deploy: autoscaling group max_instances left at old default of 2 after traffic tripled last quarter\n\nEnvironment:\n  region = us-east-1\n  replicas = 2"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"autoscaler_max_instances_too_low\",\n  \"evidence\": [\n    \"ERROR: autoscaler: max_instances limit (2) reached, cannot scale further\",\n    \"deploy: autoscaling group max_instances left at old default of 2 after traffic tripled last quarter\",\n    \"replicas = 2\"\n  ],\n  \"confidence\": 1.0,\n  \"severity\": \"high\",\n  \"recommended_action\": \"increase_autoscaling_group_max_instances\",\n  \"risk\": \"low\"\n}"
+    }
+  ]
+}

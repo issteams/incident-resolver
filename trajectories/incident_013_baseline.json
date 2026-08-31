@@ -1,0 +1,47 @@
+{
+  "incident_id": "incident_013",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_013",
+    "root_cause": "missing_distributed_lock",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "cron-scheduler scaled from 1 to 3 replicas at 00:50:00Z",
+        "supports": "missing_distributed_lock"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "duplicate job execution detected for invoice_send at 01:15:00Z",
+        "supports": "missing_distributed_lock"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "two 'invoice_send' jobs triggered at 01:00:00Z and 01:00:02Z",
+        "supports": "missing_distributed_lock"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "high"
+  },
+  "remediation": {
+    "action": "implement_distributed_lock_for_cron_jobs",
+    "risk": "critical",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 2.200883726000029,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: cron-scheduler\nSummary: Duplicate invoices sent to customers overnight\n\nLogs:\n  [2026-08-30T01:00:00Z] INFO: cron-scheduler triggered job invoice_send\n  [2026-08-30T01:00:02Z] INFO: cron-scheduler triggered job invoice_send\n  [2026-08-30T01:15:00Z] WARN: duplicate job execution detected for invoice_send\n\nMetrics:\n  error_rate = 0.0\n\nConfig:\n\nRecent deployments:\n  [2026-08-30T00:50:00Z] deploy: scaled cron-scheduler replicas from 1 to 3 without adding a distributed lock\n\nEnvironment:\n  region = us-east-1\n  replicas = 3"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"missing_distributed_lock\",\n  \"evidence\": [\n    \"cron-scheduler scaled from 1 to 3 replicas at 00:50:00Z\",\n    \"duplicate job execution detected for invoice_send at 01:15:00Z\",\n    \"two 'invoice_send' jobs triggered at 01:00:00Z and 01:00:02Z\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"implement_distributed_lock_for_cron_jobs\",\n  \"risk\": \"critical\"\n}"
+    }
+  ]
+}

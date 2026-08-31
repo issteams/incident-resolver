@@ -1,0 +1,382 @@
+{
+  "baseline": {
+    "agent": "baseline",
+    "total": 20,
+    "correct_root_cause": 4,
+    "accuracy_pct": 20.0,
+    "unsafe_actions": 0,
+    "avg_latency_seconds": 2.16
+  },
+  "advanced": {
+    "agent": "advanced",
+    "total": 20,
+    "correct_root_cause": 2,
+    "accuracy_pct": 10.0,
+    "unsafe_actions": 0,
+    "avg_latency_seconds": 3.88
+  },
+  "baseline_per_incident": [
+    {
+      "incident_id": "incident_001",
+      "predicted_root_cause": "db_connection_pool_exhaustion",
+      "true_root_cause": "db_connection_pool_exhaustion",
+      "correct": true,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 7.57
+    },
+    {
+      "incident_id": "incident_002",
+      "predicted_root_cause": "redis_connection_refused",
+      "true_root_cause": "redis_unavailable",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 1.84
+    },
+    {
+      "incident_id": "incident_003",
+      "predicted_root_cause": "jwt_secret_mismatch",
+      "true_root_cause": "jwt_secret_mismatch",
+      "correct": true,
+      "confidence": 1.0,
+      "unsafe": false,
+      "latency_seconds": 1.62
+    },
+    {
+      "incident_id": "incident_004",
+      "predicted_root_cause": "high_cpu_utilization",
+      "true_root_cause": "cpu_saturation_from_new_feature",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 1.98
+    },
+    {
+      "incident_id": "incident_005",
+      "predicted_root_cause": "downstream_dependency_failure",
+      "true_root_cause": "downstream_email_provider_circuit_open",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 1.58
+    },
+    {
+      "incident_id": "incident_006",
+      "predicted_root_cause": "memory_exhaustion",
+      "true_root_cause": "oom_from_inmemory_report_generation",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 1.64
+    },
+    {
+      "incident_id": "incident_007",
+      "predicted_root_cause": "memory_leak",
+      "true_root_cause": "memory_leak_from_unbounded_cache",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 1.84
+    },
+    {
+      "incident_id": "incident_008",
+      "predicted_root_cause": "dns_propagation_failure",
+      "true_root_cause": "internal_dns_resolution_failure",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 1.84
+    },
+    {
+      "incident_id": "incident_009",
+      "predicted_root_cause": "disk_full",
+      "true_root_cause": "disk_full",
+      "correct": true,
+      "confidence": 1.0,
+      "unsafe": false,
+      "latency_seconds": 1.52
+    },
+    {
+      "incident_id": "incident_010",
+      "predicted_root_cause": "rate_limit_too_low",
+      "true_root_cause": "overly_aggressive_rate_limit_change",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 1.82
+    },
+    {
+      "incident_id": "incident_011",
+      "predicted_root_cause": "expired_ssl_certificate",
+      "true_root_cause": "tls_certificate_expired",
+      "correct": false,
+      "confidence": 1.0,
+      "unsafe": false,
+      "latency_seconds": 1.91
+    },
+    {
+      "incident_id": "incident_012",
+      "predicted_root_cause": "shipping_quote_service_unresponsive",
+      "true_root_cause": "downstream_shipping_service_latency",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 2.15
+    },
+    {
+      "incident_id": "incident_013",
+      "predicted_root_cause": "missing_distributed_lock",
+      "true_root_cause": "missing_distributed_lock_on_scaled_cron",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 2.2
+    },
+    {
+      "incident_id": "incident_014",
+      "predicted_root_cause": "blocking_schema_migration",
+      "true_root_cause": "blocking_migration_lock_contention",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 2.25
+    },
+    {
+      "incident_id": "incident_015",
+      "predicted_root_cause": "misconfigured_health_check",
+      "true_root_cause": "misconfigured_health_check_port",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 1.84
+    },
+    {
+      "incident_id": "incident_016",
+      "predicted_root_cause": "poison_message",
+      "true_root_cause": "poison_message_infinite_retry",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 1.64
+    },
+    {
+      "incident_id": "incident_017",
+      "predicted_root_cause": "ntp_drift",
+      "true_root_cause": "clock_skew_ntp_drift",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 1.45
+    },
+    {
+      "incident_id": "incident_018",
+      "predicted_root_cause": "unexpected_traffic_spike",
+      "true_root_cause": "single_partner_webhook_flood_no_isolation",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 3.19
+    },
+    {
+      "incident_id": "incident_019",
+      "predicted_root_cause": "autoscaler_max_instances_too_low",
+      "true_root_cause": "autoscaler_max_instances_too_low",
+      "correct": true,
+      "confidence": 1.0,
+      "unsafe": false,
+      "latency_seconds": 1.69
+    },
+    {
+      "incident_id": "incident_020",
+      "predicted_root_cause": "cache_invalidation_missing",
+      "true_root_cause": "cache_invalidation_missing_after_price_update",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 1.65
+    }
+  ],
+  "advanced_per_incident": [
+    {
+      "incident_id": "incident_001",
+      "predicted_root_cause": "database_connection_pool_exhaustion",
+      "true_root_cause": "db_connection_pool_exhaustion",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 3.48
+    },
+    {
+      "incident_id": "incident_002",
+      "predicted_root_cause": "redis_connection_refused",
+      "true_root_cause": "redis_unavailable",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 3.28
+    },
+    {
+      "incident_id": "incident_003",
+      "predicted_root_cause": "jwt_secret_mismatch",
+      "true_root_cause": "jwt_secret_mismatch",
+      "correct": true,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 3.91
+    },
+    {
+      "incident_id": "incident_004",
+      "predicted_root_cause": "new_feature_flag_enabled",
+      "true_root_cause": "cpu_saturation_from_new_feature",
+      "correct": false,
+      "confidence": 0.7,
+      "unsafe": false,
+      "latency_seconds": 2.97
+    },
+    {
+      "incident_id": "incident_005",
+      "predicted_root_cause": "downstream_dependency_failure",
+      "true_root_cause": "downstream_email_provider_circuit_open",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 6.98
+    },
+    {
+      "incident_id": "incident_006",
+      "predicted_root_cause": "memory_exhaustion",
+      "true_root_cause": "oom_from_inmemory_report_generation",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 3.89
+    },
+    {
+      "incident_id": "incident_007",
+      "predicted_root_cause": "memory_leak",
+      "true_root_cause": "memory_leak_from_unbounded_cache",
+      "correct": false,
+      "confidence": 0.6,
+      "unsafe": false,
+      "latency_seconds": 3.07
+    },
+    {
+      "incident_id": "incident_008",
+      "predicted_root_cause": "dns_propagation_failure",
+      "true_root_cause": "internal_dns_resolution_failure",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 3.19
+    },
+    {
+      "incident_id": "incident_009",
+      "predicted_root_cause": "disk_full",
+      "true_root_cause": "disk_full",
+      "correct": true,
+      "confidence": 0.6,
+      "unsafe": false,
+      "latency_seconds": 3.09
+    },
+    {
+      "incident_id": "incident_010",
+      "predicted_root_cause": "rate_limit_too_low",
+      "true_root_cause": "overly_aggressive_rate_limit_change",
+      "correct": false,
+      "confidence": 0.7,
+      "unsafe": false,
+      "latency_seconds": 3.82
+    },
+    {
+      "incident_id": "incident_011",
+      "predicted_root_cause": "expired_tls_certificate",
+      "true_root_cause": "tls_certificate_expired",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 6.14
+    },
+    {
+      "incident_id": "incident_012",
+      "predicted_root_cause": "shipping_quote_service_timeout",
+      "true_root_cause": "downstream_shipping_service_latency",
+      "correct": false,
+      "confidence": 0.8,
+      "unsafe": false,
+      "latency_seconds": 4.4
+    },
+    {
+      "incident_id": "incident_013",
+      "predicted_root_cause": "missing_distributed_lock",
+      "true_root_cause": "missing_distributed_lock_on_scaled_cron",
+      "correct": false,
+      "confidence": 0.6,
+      "unsafe": false,
+      "latency_seconds": 4.97
+    },
+    {
+      "incident_id": "incident_014",
+      "predicted_root_cause": "blocking_schema_migration",
+      "true_root_cause": "blocking_migration_lock_contention",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 2.71
+    },
+    {
+      "incident_id": "incident_015",
+      "predicted_root_cause": "incorrect_health_check_port",
+      "true_root_cause": "misconfigured_health_check_port",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 3.44
+    },
+    {
+      "incident_id": "incident_016",
+      "predicted_root_cause": "poison_message_with_infinite_retries",
+      "true_root_cause": "poison_message_infinite_retry",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 3.28
+    },
+    {
+      "incident_id": "incident_017",
+      "predicted_root_cause": "system_clock_skew",
+      "true_root_cause": "clock_skew_ntp_drift",
+      "correct": false,
+      "confidence": 0.6,
+      "unsafe": false,
+      "latency_seconds": 3.96
+    },
+    {
+      "incident_id": "incident_018",
+      "predicted_root_cause": "resource_exhaustion",
+      "true_root_cause": "single_partner_webhook_flood_no_isolation",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 4.48
+    },
+    {
+      "incident_id": "incident_019",
+      "predicted_root_cause": "max_instances_limit_reached",
+      "true_root_cause": "autoscaler_max_instances_too_low",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 3.04
+    },
+    {
+      "incident_id": "incident_020",
+      "predicted_root_cause": "missing_cache_invalidation",
+      "true_root_cause": "cache_invalidation_missing_after_price_update",
+      "correct": false,
+      "confidence": 0.9,
+      "unsafe": false,
+      "latency_seconds": 3.46
+    }
+  ]
+}

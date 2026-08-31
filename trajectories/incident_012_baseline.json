@@ -1,0 +1,47 @@
+{
+  "incident_id": "incident_012",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_012",
+    "root_cause": "shipping_quote_service_unresponsive",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "httpx.ReadTimeout: shipping-quote-service did not respond within 3000ms",
+        "supports": "shipping_quote_service_unresponsive"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "latency_ms = 3000.0ms",
+        "supports": "shipping_quote_service_unresponsive"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "error_rate = 0.3",
+        "supports": "shipping_quote_service_unresponsive"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "high"
+  },
+  "remediation": {
+    "action": "investigate_shipping_quote_service",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 2.149513816999388,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: order-service\nSummary: Order creation slow, timeouts calling shipping-quote-service\n\nLogs:\n  [2026-08-30T13:00:00Z] INFO: order-service healthy\n  [2026-08-30T13:10:00Z] ERROR: httpx.ReadTimeout: shipping-quote-service did not respond within 3000ms\n  [2026-08-30T13:10:05Z] ERROR: httpx.ReadTimeout: shipping-quote-service did not respond within 3000ms\n\nMetrics:\n  latency_ms = 3000.0ms\n  error_rate = 0.3\n\nConfig:\n  timeout_ms = 3000\n  retry_count = 3\n\nRecent deployments:\n\nEnvironment:\n  region = us-east-1\n  replicas = 5"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"shipping_quote_service_unresponsive\",\n  \"evidence\": [\n    \"httpx.ReadTimeout: shipping-quote-service did not respond within 3000ms\",\n    \"latency_ms = 3000.0ms\",\n    \"error_rate = 0.3\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"investigate_shipping_quote_service\",\n  \"risk\": \"high\"\n}"
+    }
+  ]
+}

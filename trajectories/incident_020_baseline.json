@@ -1,0 +1,47 @@
+{
+  "incident_id": "incident_020",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_020",
+    "root_cause": "cache_invalidation_missing",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "WARN: price update published but cache not invalidated",
+        "supports": "cache_invalidation_missing"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "deploy: price update pipeline changed, cache invalidation step accidentally removed",
+        "supports": "cache_invalidation_missing"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "cache_ttl_seconds = 86400",
+        "supports": "cache_invalidation_missing"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "high"
+  },
+  "remediation": {
+    "action": "Re-add cache invalidation step to price update pipeline",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 1.653475368000727,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: pricing-service\nSummary: Customers seeing stale prices from yesterday despite price update\n\nLogs:\n  [2026-08-30T09:00:00Z] INFO: pricing-service healthy\n  [2026-08-30T09:05:00Z] WARN: price update published but cache not invalidated\n\nMetrics:\n  error_rate = 0.0\n\nConfig:\n  cache_ttl_seconds = 86400\n\nRecent deployments:\n  [2026-08-30T08:55:00Z] deploy: price update pipeline changed, cache invalidation step accidentally removed\n\nEnvironment:\n  region = us-east-1\n  replicas = 4"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"cache_invalidation_missing\",\n  \"evidence\": [\n    \"WARN: price update published but cache not invalidated\",\n    \"deploy: price update pipeline changed, cache invalidation step accidentally removed\",\n    \"cache_ttl_seconds = 86400\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Re-add cache invalidation step to price update pipeline\",\n  \"risk\": \"high\"\n}"
+    }
+  ]
+}

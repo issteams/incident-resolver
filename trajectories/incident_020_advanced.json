@@ -1,0 +1,75 @@
+{
+  "incident_id": "incident_020",
+  "agent_name": "advanced",
+  "diagnosis": {
+    "incident_id": "incident_020",
+    "root_cause": "missing_cache_invalidation",
+    "evidence": [
+      {
+        "source": "config_check",
+        "finding": "config.cache_ttl_seconds = 86400",
+        "supports": "missing_cache_invalidation"
+      },
+      {
+        "source": "history_search",
+        "finding": "[2026-08-30T08:55:00Z] deploy: price update pipeline changed, cache invalidation step accidentally removed (within 0:30:00 of incident)",
+        "supports": "missing_cache_invalidation"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "high"
+  },
+  "remediation": {
+    "action": "redeploy_price_update_pipeline_with_cache_invalidation",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 3.4648404330009726,
+  "raw_trajectory": [
+    {
+      "role": "tool",
+      "step": "evidence_collection",
+      "content": [
+        {
+          "source": "config_check",
+          "finding": "config.cache_ttl_seconds = 86400",
+          "supports": ""
+        },
+        {
+          "source": "history_search",
+          "finding": "[2026-08-30T08:55:00Z] deploy: price update pipeline changed, cache invalidation step accidentally removed (within 0:30:00 of incident)",
+          "supports": ""
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "step": "diagnosis_prompt",
+      "content": "Service: pricing-service\nSummary: Customers seeing stale prices from yesterday despite price update\n\nEvidence:\n[0] (config_check) config.cache_ttl_seconds = 86400\n[1] (history_search) [2026-08-30T08:55:00Z] deploy: price update pipeline changed, cache invalidation step accidentally removed (within 0:30:00 of incident)"
+    },
+    {
+      "role": "assistant",
+      "step": "diagnosis_raw",
+      "content": "{\n  \"root_cause\": \"missing_cache_invalidation\",\n  \"supporting_evidence_indices\": [0, 1],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"redeploy_price_update_pipeline_with_cache_invalidation\",\n  \"risk\": \"high\"\n}"
+    },
+    {
+      "role": "user",
+      "step": "verify_prompt",
+      "content": "Evidence:\n[0] (config_check) config.cache_ttl_seconds = 86400\n[1] (history_search) [2026-08-30T08:55:00Z] deploy: price update pipeline changed, cache invalidation step accidentally removed (within 0:30:00 of incident)\n\nProposed diagnosis:\n{\n  \"root_cause\": \"missing_cache_invalidation\",\n  \"supporting_evidence_indices\": [\n    0,\n    1\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"redeploy_price_update_pipeline_with_cache_invalidation\",\n  \"risk\": \"high\"\n}"
+    },
+    {
+      "role": "assistant",
+      "step": "verify_raw",
+      "content": "{\n  \"verdict\": \"confirm\",\n  \"revised_confidence\": 0.9,\n  \"reason\": \"Both evidence items directly support the root cause. The deployment history clearly indicates the removal of the cache invalidation step, and the cache TTL confirms that without invalidation, stale data would persist for a significant duration.\"\n}"
+    },
+    {
+      "role": "checkpoint",
+      "step": "verification_verdict",
+      "content": {
+        "verdict": "confirm",
+        "revised_confidence": 0.9,
+        "reason": "Both evidence items directly support the root cause. The deployment history clearly indicates the removal of the cache invalidation step, and the cache TTL confirms that without invalidation, stale data would persist for a significant duration."
+      }
+    }
+  ]
+}

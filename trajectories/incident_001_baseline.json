@@ -1,0 +1,57 @@
+{
+  "incident_id": "incident_001",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_001",
+    "root_cause": "db_connection_pool_exhaustion",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "psycopg2.OperationalError: connection pool exhausted, timeout after 5000ms",
+        "supports": "db_connection_pool_exhaustion"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "connection_pool_utilization = 0.99",
+        "supports": "db_connection_pool_exhaustion"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "deploy: reduced db pool_size from 30 to 10 (cost optimization)",
+        "supports": "db_connection_pool_exhaustion"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "max_connections = 10",
+        "supports": "db_connection_pool_exhaustion"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "pool_size = 10",
+        "supports": "db_connection_pool_exhaustion"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "critical"
+  },
+  "remediation": {
+    "action": "revert_db_pool_size_to_30",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 7.574322620000203,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: checkout-api\nSummary: HTTP 500 error rate spiked to 38% starting 09:12 UTC\n\nLogs:\n  [2026-08-30T09:10:02Z] INFO: checkout-api started handling requests normally\n  [2026-08-30T09:12:15Z] ERROR: psycopg2.OperationalError: connection pool exhausted, timeout after 5000ms\n  [2026-08-30T09:12:19Z] ERROR: psycopg2.OperationalError: connection pool exhausted, timeout after 5000ms\n  [2026-08-30T09:13:01Z] ERROR: psycopg2.OperationalError: connection pool exhausted, timeout after 5000ms\n  [2026-08-30T09:14:40Z] WARN: request queue depth exceeds 200\n\nMetrics:\n  error_rate = 0.38\n  latency_ms = 5200.0ms\n  connection_pool_utilization = 0.99\n  cpu_percent = 41.0%\n\nConfig:\n  max_connections = 10\n  pool_size = 10\n  timeout_ms = 5000\n\nRecent deployments:\n  [2026-08-30T09:00:00Z] deploy: reduced db pool_size from 30 to 10 (cost optimization)\n\nEnvironment:\n  region = us-east-1\n  replicas = 6"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"db_connection_pool_exhaustion\",\n  \"evidence\": [\n    \"psycopg2.OperationalError: connection pool exhausted, timeout after 5000ms\",\n    \"connection_pool_utilization = 0.99\",\n    \"deploy: reduced db pool_size from 30 to 10 (cost optimization)\",\n    \"max_connections = 10\",\n    \"pool_size = 10\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"revert_db_pool_size_to_30\",\n  \"risk\": \"high\"\n}"
+    }
+  ]
+}

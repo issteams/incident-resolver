@@ -1,0 +1,52 @@
+{
+  "incident_id": "incident_007",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_007",
+    "root_cause": "memory_leak",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "OutOfMemoryError in logs",
+        "supports": "memory_leak"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "heap usage at 89% and rising",
+        "supports": "memory_leak"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "memory_percent = 94.0%",
+        "supports": "memory_leak"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "new invoice-caching layer that never evicts entries",
+        "supports": "memory_leak"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "critical"
+  },
+  "remediation": {
+    "action": "Rollback deployment of invoice-caching layer",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 1.8421297550003146,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: billing-service\nSummary: Memory usage climbing steadily over 6 hours, periodic restarts\n\nLogs:\n  [2026-08-30T03:00:00Z] INFO: billing-service started\n  [2026-08-30T08:45:00Z] WARN: heap usage at 89% and rising\n  [2026-08-30T09:00:00Z] CRITICAL: OutOfMemoryError, process restarted by supervisor\n\nMetrics:\n  memory_percent = 94.0%\n  cpu_percent = 30.0%\n\nConfig:\n\nRecent deployments:\n  [2026-08-30T02:55:00Z] deploy: added new invoice-caching layer that never evicts entries\n\nEnvironment:\n  region = us-east-1\n  replicas = 3"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"memory_leak\",\n  \"evidence\": [\n    \"OutOfMemoryError in logs\",\n    \"heap usage at 89% and rising\",\n    \"memory_percent = 94.0%\",\n    \"new invoice-caching layer that never evicts entries\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"Rollback deployment of invoice-caching layer\",\n  \"risk\": \"high\"\n}"
+    }
+  ]
+}

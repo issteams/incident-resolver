@@ -1,0 +1,57 @@
+{
+  "incident_id": "incident_014",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_014",
+    "root_cause": "blocking_schema_migration",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "migration job started: add index on orders.customer_id",
+        "supports": "blocking_schema_migration"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "migration still running, holding ACCESS EXCLUSIVE lock on orders",
+        "supports": "blocking_schema_migration"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "application writes to orders table timing out",
+        "supports": "blocking_schema_migration"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "latency_ms = 8000.0ms",
+        "supports": "blocking_schema_migration"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "ran blocking schema migration during peak traffic",
+        "supports": "blocking_schema_migration"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "critical"
+  },
+  "remediation": {
+    "action": "kill migration job and revert schema changes",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 2.250728302000425,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: orders-db-migrator\nSummary: Schema migration job hanging, writes blocked on orders table\n\nLogs:\n  [2026-08-30T04:00:00Z] INFO: migration job started: add index on orders.customer_id\n  [2026-08-30T04:05:00Z] WARN: migration still running, holding ACCESS EXCLUSIVE lock on orders\n  [2026-08-30T04:10:00Z] ERROR: application writes to orders table timing out\n\nMetrics:\n  latency_ms = 8000.0ms\n\nConfig:\n\nRecent deployments:\n  [2026-08-30T04:00:00Z] deploy: ran blocking schema migration during peak traffic\n\nEnvironment:\n  region = us-east-1\n  replicas = 1"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"blocking_schema_migration\",\n  \"evidence\": [\n    \"migration job started: add index on orders.customer_id\",\n    \"migration still running, holding ACCESS EXCLUSIVE lock on orders\",\n    \"application writes to orders table timing out\",\n    \"latency_ms = 8000.0ms\",\n    \"ran blocking schema migration during peak traffic\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"kill migration job and revert schema changes\",\n  \"risk\": \"high\"\n}"
+    }
+  ]
+}

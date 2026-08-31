@@ -1,0 +1,85 @@
+{
+  "incident_id": "incident_018",
+  "agent_name": "advanced",
+  "diagnosis": {
+    "incident_id": "incident_018",
+    "root_cause": "resource_exhaustion",
+    "evidence": [
+      {
+        "source": "log_analyzer",
+        "finding": "[2026-08-30T15:07:00Z] ERROR: request queue saturated, dropping requests from all partners",
+        "supports": "resource_exhaustion"
+      },
+      {
+        "source": "metrics_analyzer",
+        "finding": "error_rate = 0.35 (>= threshold 0.05)",
+        "supports": ""
+      },
+      {
+        "source": "metrics_analyzer",
+        "finding": "cpu_percent = 88.0% (>= threshold 85)",
+        "supports": "resource_exhaustion"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "high"
+  },
+  "remediation": {
+    "action": "scale_up_webhook_receiver",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 4.479884176000269,
+  "raw_trajectory": [
+    {
+      "role": "tool",
+      "step": "evidence_collection",
+      "content": [
+        {
+          "source": "log_analyzer",
+          "finding": "[2026-08-30T15:07:00Z] ERROR: request queue saturated, dropping requests from all partners",
+          "supports": ""
+        },
+        {
+          "source": "metrics_analyzer",
+          "finding": "error_rate = 0.35 (>= threshold 0.05)",
+          "supports": ""
+        },
+        {
+          "source": "metrics_analyzer",
+          "finding": "cpu_percent = 88.0% (>= threshold 85)",
+          "supports": ""
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "step": "diagnosis_prompt",
+      "content": "Service: webhook-receiver\nSummary: Sudden 10x spike in inbound webhook traffic from one partner, service degraded\n\nEvidence:\n[0] (log_analyzer) [2026-08-30T15:07:00Z] ERROR: request queue saturated, dropping requests from all partners\n[1] (metrics_analyzer) error_rate = 0.35 (>= threshold 0.05)\n[2] (metrics_analyzer) cpu_percent = 88.0% (>= threshold 85)"
+    },
+    {
+      "role": "assistant",
+      "step": "diagnosis_raw",
+      "content": "{\n  \"root_cause\": \"resource_exhaustion\",\n  \"supporting_evidence_indices\": [\n    0,\n    2\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"scale_up_webhook_receiver\",\n  \"risk\": \"high\"\n}"
+    },
+    {
+      "role": "user",
+      "step": "verify_prompt",
+      "content": "Evidence:\n[0] (log_analyzer) [2026-08-30T15:07:00Z] ERROR: request queue saturated, dropping requests from all partners\n[1] (metrics_analyzer) error_rate = 0.35 (>= threshold 0.05)\n[2] (metrics_analyzer) cpu_percent = 88.0% (>= threshold 85)\n\nProposed diagnosis:\n{\n  \"root_cause\": \"resource_exhaustion\",\n  \"supporting_evidence_indices\": [\n    0,\n    2\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"scale_up_webhook_receiver\",\n  \"risk\": \"high\"\n}"
+    },
+    {
+      "role": "assistant",
+      "step": "verify_raw",
+      "content": "{\n  \"verdict\": \"confirm\",\n  \"revised_confidence\": 0.9,\n  \"reason\": \"Evidence [0] directly indicates saturation, and [2] shows high CPU, both strongly supporting resource exhaustion. Confidence is justified.\"\n}"
+    },
+    {
+      "role": "checkpoint",
+      "step": "verification_verdict",
+      "content": {
+        "verdict": "confirm",
+        "revised_confidence": 0.9,
+        "reason": "Evidence [0] directly indicates saturation, and [2] shows high CPU, both strongly supporting resource exhaustion. Confidence is justified."
+      }
+    }
+  ]
+}

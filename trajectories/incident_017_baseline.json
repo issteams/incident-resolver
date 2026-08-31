@@ -1,0 +1,42 @@
+{
+  "incident_id": "incident_017",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_017",
+    "root_cause": "ntp_drift",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "ValueError: event timestamp is in the future relative to server clock",
+        "supports": "ntp_drift"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "ntp_sync_status = drifted_180s",
+        "supports": "ntp_drift"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "high"
+  },
+  "remediation": {
+    "action": "Resync NTP on affected servers",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 1.4501541030003864,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: fraud-detection-service\nSummary: Timestamps in event stream inconsistent, fraud scoring producing errors\n\nLogs:\n  [2026-08-30T06:00:00Z] INFO: fraud-detection-service healthy\n  [2026-08-30T06:10:00Z] ERROR: ValueError: event timestamp is in the future relative to server clock\n\nMetrics:\n  error_rate = 0.25\n\nConfig:\n\nRecent deployments:\n\nEnvironment:\n  region = ap-southeast-1\n  replicas = 3\n  ntp_sync_status = drifted_180s"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"ntp_drift\",\n  \"evidence\": [\n    \"ValueError: event timestamp is in the future relative to server clock\",\n    \"ntp_sync_status = drifted_180s\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Resync NTP on affected servers\",\n  \"risk\": \"high\"\n}"
+    }
+  ]
+}

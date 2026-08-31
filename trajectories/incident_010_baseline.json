@@ -1,0 +1,47 @@
+{
+  "incident_id": "incident_010",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_010",
+    "root_cause": "rate_limit_too_low",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "tightened per-IP rate limit from 1000rpm to 100rpm",
+        "supports": "rate_limit_too_low"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "rate limiter rejecting 40% of requests with 429",
+        "supports": "rate_limit_too_low"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "error_rate = 0.4",
+        "supports": "rate_limit_too_low"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "high"
+  },
+  "remediation": {
+    "action": "revert rate limit to 1000rpm or higher",
+    "risk": "low",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 1.8195757690000391,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: public-api\nSummary: Legitimate customers getting 429 responses after traffic policy change\n\nLogs:\n  [2026-08-30T10:00:00Z] INFO: public-api healthy\n  [2026-08-30T10:05:00Z] WARN: rate limiter rejecting 40% of requests with 429\n\nMetrics:\n  error_rate = 0.4\n  latency_ms = 80.0ms\n\nConfig:\n  retry_count = 0\n\nRecent deployments:\n  [2026-08-30T09:58:00Z] deploy: tightened per-IP rate limit from 1000rpm to 100rpm\n\nEnvironment:\n  region = us-west-2\n  replicas = 6"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"rate_limit_too_low\",\n  \"evidence\": [\n    \"tightened per-IP rate limit from 1000rpm to 100rpm\",\n    \"rate limiter rejecting 40% of requests with 429\",\n    \"error_rate = 0.4\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"revert rate limit to 1000rpm or higher\",\n  \"risk\": \"low\"\n}"
+    }
+  ]
+}

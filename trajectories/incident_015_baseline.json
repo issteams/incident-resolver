@@ -1,0 +1,52 @@
+{
+  "incident_id": "incident_015",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_015",
+    "root_cause": "misconfigured_health_check",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "health check misconfigured: checking wrong port 8080 instead of 8443",
+        "supports": "misconfigured_health_check"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "load balancer config update changed health check port",
+        "supports": "misconfigured_health_check"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "backend pool B marked unhealthy incorrectly, traffic still routed",
+        "supports": "misconfigured_health_check"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "error_rate = 0.5",
+        "supports": "misconfigured_health_check"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "critical"
+  },
+  "remediation": {
+    "action": "reconfigure health check to use correct port 8443",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 1.8392931680000402,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: edge-load-balancer\nSummary: 50% of requests routed to unhealthy backend pool\n\nLogs:\n  [2026-08-30T07:00:00Z] INFO: load balancer healthy\n  [2026-08-30T07:05:00Z] WARN: health check misconfigured: checking wrong port 8080 instead of 8443\n  [2026-08-30T07:05:30Z] ERROR: backend pool B marked unhealthy incorrectly, traffic still routed\n\nMetrics:\n  error_rate = 0.5\n\nConfig:\n\nRecent deployments:\n  [2026-08-30T06:58:00Z] deploy: load balancer config update changed health check port\n\nEnvironment:\n  region = us-west-2\n  replicas = 4"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"misconfigured_health_check\",\n  \"evidence\": [\n    \"health check misconfigured: checking wrong port 8080 instead of 8443\",\n    \"load balancer config update changed health check port\",\n    \"backend pool B marked unhealthy incorrectly, traffic still routed\",\n    \"error_rate = 0.5\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"reconfigure health check to use correct port 8443\",\n  \"risk\": \"high\"\n}"
+    }
+  ]
+}

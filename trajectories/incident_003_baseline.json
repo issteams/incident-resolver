@@ -1,0 +1,47 @@
+{
+  "incident_id": "incident_003",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_003",
+    "root_cause": "jwt_secret_mismatch",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "jwt.exceptions.InvalidSignatureError in logs",
+        "supports": "jwt_secret_mismatch"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "Recent deployment rotated JWT signing secret without updating verifier config",
+        "supports": "jwt_secret_mismatch"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "Error rate at 44%",
+        "supports": "jwt_secret_mismatch"
+      }
+    ],
+    "confidence": 1.0,
+    "severity": "critical"
+  },
+  "remediation": {
+    "action": "Update auth-service JWT verification secret to match the new signing secret",
+    "risk": "critical",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 1.6180743500008248,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: auth-service\nSummary: Login failures increasing after latest deploy\n\nLogs:\n  [2026-08-30T11:00:00Z] INFO: auth-service started\n  [2026-08-30T11:02:30Z] ERROR: jwt.exceptions.InvalidSignatureError: Signature verification failed\n  [2026-08-30T11:02:45Z] ERROR: jwt.exceptions.InvalidSignatureError: Signature verification failed\n  [2026-08-30T11:03:10Z] ERROR: jwt.exceptions.InvalidSignatureError: Signature verification failed\n\nMetrics:\n  error_rate = 0.44\n  latency_ms = 90.0ms\n\nConfig:\n  timeout_ms = 3000\n\nRecent deployments:\n  [2026-08-30T10:58:00Z] deploy: rotated JWT signing secret without updating downstream verifier config\n\nEnvironment:\n  region = us-east-1\n  replicas = 3"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"jwt_secret_mismatch\",\n  \"evidence\": [\n    \"jwt.exceptions.InvalidSignatureError in logs\",\n    \"Recent deployment rotated JWT signing secret without updating verifier config\",\n    \"Error rate at 44%\"\n  ],\n  \"confidence\": 1.0,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"Update auth-service JWT verification secret to match the new signing secret\",\n  \"risk\": \"critical\"\n}"
+    }
+  ]
+}

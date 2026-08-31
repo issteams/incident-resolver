@@ -1,0 +1,47 @@
+{
+  "incident_id": "incident_002",
+  "agent_name": "baseline",
+  "diagnosis": {
+    "incident_id": "incident_002",
+    "root_cause": "redis_connection_refused",
+    "evidence": [
+      {
+        "source": "baseline_llm",
+        "finding": "redis.exceptions.ConnectionError: Error 111 connecting to redis:6379. Connection refused.",
+        "supports": "redis_connection_refused"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "session cache unavailable, falling back to degraded mode",
+        "supports": "redis_connection_refused"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "error_rate = 0.61",
+        "supports": "redis_connection_refused"
+      }
+    ],
+    "confidence": 0.9,
+    "severity": "high"
+  },
+  "remediation": {
+    "action": "investigate_redis_service_status",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 1.8351796939996348,
+  "raw_trajectory": [
+    {
+      "role": "system",
+      "content": "You are an on-call software engineer diagnosing a production incident.\nYou will be given logs, metrics, config, and recent deployments as raw context.\nRespond with ONLY a JSON object, no prose, no markdown fences, matching this schema:\n\n{\n  \"root_cause\": \"short_snake_case_label\",\n  \"evidence\": [\"short evidence string\", \"...\"],\n  \"confidence\": 0.0-1.0,\n  \"severity\": \"low\"|\"medium\"|\"high\"|\"critical\",\n  \"recommended_action\": \"short imperative string\",\n  \"risk\": \"low\"|\"medium\"|\"high\"|\"critical\"\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "Service: payments-api\nSummary: Redis errors across all payment endpoints\n\nLogs:\n  [2026-08-30T14:00:00Z] INFO: payments-api healthy\n  [2026-08-30T14:05:12Z] ERROR: redis.exceptions.ConnectionError: Error 111 connecting to redis:6379. Connection refused.\n  [2026-08-30T14:05:14Z] ERROR: redis.exceptions.ConnectionError: Error 111 connecting to redis:6379. Connection refused.\n  [2026-08-30T14:05:20Z] CRITICAL: session cache unavailable, falling back to degraded mode\n\nMetrics:\n  error_rate = 0.61\n  latency_ms = 220.0ms\n  cpu_percent = 22.0%\n\nConfig:\n  cache_ttl_seconds = 300\n  retry_count = 3\n\nRecent deployments:\n\nEnvironment:\n  region = eu-west-1\n  replicas = 4"
+    },
+    {
+      "role": "assistant",
+      "content": "{\n  \"root_cause\": \"redis_connection_refused\",\n  \"evidence\": [\n    \"redis.exceptions.ConnectionError: Error 111 connecting to redis:6379. Connection refused.\",\n    \"session cache unavailable, falling back to degraded mode\",\n    \"error_rate = 0.61\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"investigate_redis_service_status\",\n  \"risk\": \"high\"\n}"
+    }
+  ]
+}

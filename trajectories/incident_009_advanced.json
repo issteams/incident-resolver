@@ -1,0 +1,65 @@
+{
+  "incident_id": "incident_009",
+  "agent_name": "advanced",
+  "diagnosis": {
+    "incident_id": "incident_009",
+    "root_cause": "disk_full",
+    "evidence": [
+      {
+        "source": "log_analyzer",
+        "finding": "[2026-08-30T05:40:00Z] ERROR: OSError: [Errno 28] No space left on device",
+        "supports": "disk_full"
+      }
+    ],
+    "confidence": 0.6,
+    "severity": "high"
+  },
+  "remediation": {
+    "action": "clear disk space",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 3.0922752929991475,
+  "raw_trajectory": [
+    {
+      "role": "tool",
+      "step": "evidence_collection",
+      "content": [
+        {
+          "source": "log_analyzer",
+          "finding": "[2026-08-30T05:40:00Z] ERROR: OSError: [Errno 28] No space left on device",
+          "supports": ""
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "step": "diagnosis_prompt",
+      "content": "Service: media-upload-service\nSummary: Uploads failing, disk write errors in logs\n\nEvidence:\n[0] (log_analyzer) [2026-08-30T05:40:00Z] ERROR: OSError: [Errno 28] No space left on device"
+    },
+    {
+      "role": "assistant",
+      "step": "diagnosis_raw",
+      "content": "{\n  \"root_cause\": \"disk_full\",\n  \"supporting_evidence_indices\": [\n    0\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"clear disk space\",\n  \"risk\": \"high\"\n}"
+    },
+    {
+      "role": "user",
+      "step": "verify_prompt",
+      "content": "Evidence:\n[0] (log_analyzer) [2026-08-30T05:40:00Z] ERROR: OSError: [Errno 28] No space left on device\n\nProposed diagnosis:\n{\n  \"root_cause\": \"disk_full\",\n  \"supporting_evidence_indices\": [\n    0\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"clear disk space\",\n  \"risk\": \"high\"\n}"
+    },
+    {
+      "role": "assistant",
+      "step": "verify_raw",
+      "content": "{\n  \"verdict\": \"revise\",\n  \"revised_confidence\": 0.6,\n  \"reason\": \"While the evidence directly points to 'No space left on device', a single log line is not sufficient for 0.9 confidence. More corroborating evidence (e.g., disk usage metrics, multiple affected services) would be needed to justify such high confidence.\"\n}"
+    },
+    {
+      "role": "checkpoint",
+      "step": "verification_verdict",
+      "content": {
+        "verdict": "revise",
+        "revised_confidence": 0.6,
+        "reason": "While the evidence directly points to 'No space left on device', a single log line is not sufficient for 0.9 confidence. More corroborating evidence (e.g., disk usage metrics, multiple affected services) would be needed to justify such high confidence."
+      }
+    }
+  ]
+}

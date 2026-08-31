@@ -72,22 +72,3 @@ def print_report(results: dict[str, RunMetrics]) -> None:
     print(f"  Avg latency     {a['avg_latency_seconds']}s")
     print(f"\nImprovement       {improvement:+.1f}pp accuracy")
     print("=" * 44)
-
-
-if __name__ == "__main__":
-    results = run_evaluation()
-    print_report(results)
-
-    out_path = Path(__file__).resolve().parents[3] / "evaluation_report.json"
-    out_path.write_text(
-        json.dumps(
-            {
-                "baseline": results["baseline"].as_dict(),
-                "advanced": results["advanced"].as_dict(),
-                "baseline_per_incident": results["baseline"].per_incident,
-                "advanced_per_incident": results["advanced"].per_incident,
-            },
-            indent=2,
-        )
-    )
-    print(f"\nDetailed report written to {out_path}")

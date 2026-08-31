@@ -1,0 +1,105 @@
+{
+  "incident_id": "incident_012",
+  "agent_name": "advanced",
+  "diagnosis": {
+    "incident_id": "incident_012",
+    "root_cause": "shipping_quote_service_timeout",
+    "evidence": [
+      {
+        "source": "log_analyzer",
+        "finding": "[2026-08-30T13:10:00Z] ERROR: httpx.ReadTimeout: shipping-quote-service did not respond within 3000ms",
+        "supports": "shipping_quote_service_timeout"
+      },
+      {
+        "source": "metrics_analyzer",
+        "finding": "latency_ms = 3000.0ms (>= threshold 500)",
+        "supports": "shipping_quote_service_timeout"
+      },
+      {
+        "source": "metrics_analyzer",
+        "finding": "error_rate = 0.3 (>= threshold 0.05)",
+        "supports": "shipping_quote_service_timeout"
+      },
+      {
+        "source": "config_check",
+        "finding": "config.timeout_ms = 3000",
+        "supports": "shipping_quote_service_timeout"
+      },
+      {
+        "source": "config_check",
+        "finding": "config.retry_count = 3",
+        "supports": ""
+      }
+    ],
+    "confidence": 0.8,
+    "severity": "high"
+  },
+  "remediation": {
+    "action": "Investigate shipping-quote-service performance",
+    "risk": "high",
+    "requires_human_approval": true
+  },
+  "latency_seconds": 4.401470898000298,
+  "raw_trajectory": [
+    {
+      "role": "tool",
+      "step": "evidence_collection",
+      "content": [
+        {
+          "source": "log_analyzer",
+          "finding": "[2026-08-30T13:10:00Z] ERROR: httpx.ReadTimeout: shipping-quote-service did not respond within 3000ms",
+          "supports": ""
+        },
+        {
+          "source": "metrics_analyzer",
+          "finding": "latency_ms = 3000.0ms (>= threshold 500)",
+          "supports": ""
+        },
+        {
+          "source": "metrics_analyzer",
+          "finding": "error_rate = 0.3 (>= threshold 0.05)",
+          "supports": ""
+        },
+        {
+          "source": "config_check",
+          "finding": "config.timeout_ms = 3000",
+          "supports": ""
+        },
+        {
+          "source": "config_check",
+          "finding": "config.retry_count = 3",
+          "supports": ""
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "step": "diagnosis_prompt",
+      "content": "Service: order-service\nSummary: Order creation slow, timeouts calling shipping-quote-service\n\nEvidence:\n[0] (log_analyzer) [2026-08-30T13:10:00Z] ERROR: httpx.ReadTimeout: shipping-quote-service did not respond within 3000ms\n[1] (metrics_analyzer) latency_ms = 3000.0ms (>= threshold 500)\n[2] (metrics_analyzer) error_rate = 0.3 (>= threshold 0.05)\n[3] (config_check) config.timeout_ms = 3000\n[4] (config_check) config.retry_count = 3"
+    },
+    {
+      "role": "assistant",
+      "step": "diagnosis_raw",
+      "content": "{\n  \"root_cause\": \"shipping_quote_service_timeout\",\n  \"supporting_evidence_indices\": [0, 1, 2, 3],\n  \"confidence\": 0.0,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Investigate shipping-quote-service performance\",\n  \"risk\": \"high\"\n}"
+    },
+    {
+      "role": "user",
+      "step": "verify_prompt",
+      "content": "Evidence:\n[0] (log_analyzer) [2026-08-30T13:10:00Z] ERROR: httpx.ReadTimeout: shipping-quote-service did not respond within 3000ms\n[1] (metrics_analyzer) latency_ms = 3000.0ms (>= threshold 500)\n[2] (metrics_analyzer) error_rate = 0.3 (>= threshold 0.05)\n[3] (config_check) config.timeout_ms = 3000\n[4] (config_check) config.retry_count = 3\n\nProposed diagnosis:\n{\n  \"root_cause\": \"shipping_quote_service_timeout\",\n  \"supporting_evidence_indices\": [\n    0,\n    1,\n    2,\n    3\n  ],\n  \"confidence\": 0.0,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Investigate shipping-quote-service performance\",\n  \"risk\": \"high\"\n}"
+    },
+    {
+      "role": "assistant",
+      "step": "verify_raw",
+      "content": "{\n  \"verdict\": \"revise\",\n  \"revised_confidence\": 0.8,\n  \"reason\": \"All cited evidence exists and supports the root cause. The confidence was set to 0.0 which is incorrect given the strong evidence.\"\n}"
+    },
+    {
+      "role": "checkpoint",
+      "step": "verification_verdict",
+      "content": {
+        "verdict": "revise",
+        "revised_confidence": 0.8,
+        "reason": "All cited evidence exists and supports the root cause. The confidence was set to 0.0 which is incorrect given the strong evidence."
+      }
+    }
+  ]
+}
