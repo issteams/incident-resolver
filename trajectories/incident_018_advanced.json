@@ -29,7 +29,7 @@
     "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 4.479884176000269,
+  "latency_seconds": 2.9253658679999717,
   "raw_trajectory": [
     {
       "role": "tool",
@@ -60,7 +60,8 @@
     {
       "role": "assistant",
       "step": "diagnosis_raw",
-      "content": "{\n  \"root_cause\": \"resource_exhaustion\",\n  \"supporting_evidence_indices\": [\n    0,\n    2\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"scale_up_webhook_receiver\",\n  \"risk\": \"high\"\n}"
+      "content": "{\n  \"root_cause\": \"resource_exhaustion\",\n  \"supporting_evidence_indices\": [\n    0,\n    2\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"scale_up_webhook_receiver\",\n  \"risk\": \"high\"\n}",
+      "attempt": 1
     },
     {
       "role": "user",
@@ -69,8 +70,9 @@
     },
     {
       "role": "assistant",
-      "step": "verify_raw",
-      "content": "{\n  \"verdict\": \"confirm\",\n  \"revised_confidence\": 0.9,\n  \"reason\": \"Evidence [0] directly indicates saturation, and [2] shows high CPU, both strongly supporting resource exhaustion. Confidence is justified.\"\n}"
+      "step": "verification_raw",
+      "content": "{\n  \"verdict\": \"confirm\",\n  \"revised_confidence\": 0.9,\n  \"reason\": \"Evidence [0] directly indicates saturation, and [2] shows high CPU, both strongly supporting resource exhaustion. Confidence is justified.\"\n}",
+      "attempt": 1
     },
     {
       "role": "checkpoint",

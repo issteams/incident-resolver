@@ -7,7 +7,7 @@
     "evidence": [
       {
         "source": "baseline_llm",
-        "finding": "cron-scheduler scaled from 1 to 3 replicas at 00:50:00Z",
+        "finding": "cron-scheduler triggered job invoice_send twice at 01:00:00Z and 01:00:02Z",
         "supports": "missing_distributed_lock"
       },
       {
@@ -17,7 +17,7 @@
       },
       {
         "source": "baseline_llm",
-        "finding": "two 'invoice_send' jobs triggered at 01:00:00Z and 01:00:02Z",
+        "finding": "scaled cron-scheduler replicas from 1 to 3 without adding a distributed lock at 00:50:00Z",
         "supports": "missing_distributed_lock"
       }
     ],
@@ -25,11 +25,11 @@
     "severity": "high"
   },
   "remediation": {
-    "action": "implement_distributed_lock_for_cron_jobs",
-    "risk": "critical",
+    "action": "implement distributed locking for cron jobs",
+    "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 2.200883726000029,
+  "latency_seconds": 1.925036036000165,
   "raw_trajectory": [
     {
       "role": "system",
@@ -41,7 +41,7 @@
     },
     {
       "role": "assistant",
-      "content": "{\n  \"root_cause\": \"missing_distributed_lock\",\n  \"evidence\": [\n    \"cron-scheduler scaled from 1 to 3 replicas at 00:50:00Z\",\n    \"duplicate job execution detected for invoice_send at 01:15:00Z\",\n    \"two 'invoice_send' jobs triggered at 01:00:00Z and 01:00:02Z\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"implement_distributed_lock_for_cron_jobs\",\n  \"risk\": \"critical\"\n}"
+      "content": "{\n  \"root_cause\": \"missing_distributed_lock\",\n  \"evidence\": [\n    \"cron-scheduler triggered job invoice_send twice at 01:00:00Z and 01:00:02Z\",\n    \"duplicate job execution detected for invoice_send at 01:15:00Z\",\n    \"scaled cron-scheduler replicas from 1 to 3 without adding a distributed lock at 00:50:00Z\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"implement distributed locking for cron jobs\",\n  \"risk\": \"high\"\n}"
     }
   ]
 }

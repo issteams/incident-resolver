@@ -16,7 +16,7 @@
         "supports": "memory_leak"
       }
     ],
-    "confidence": 0.6,
+    "confidence": 0.9,
     "severity": "high"
   },
   "remediation": {
@@ -24,7 +24,7 @@
     "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 3.0738705270005084,
+  "latency_seconds": 3.9535577430006015,
   "raw_trajectory": [
     {
       "role": "tool",
@@ -50,7 +50,8 @@
     {
       "role": "assistant",
       "step": "diagnosis_raw",
-      "content": "{\n  \"root_cause\": \"memory_leak\",\n  \"supporting_evidence_indices\": [0, 1],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"analyze_heap_dump\",\n  \"risk\": \"high\"\n}"
+      "content": "{\n  \"root_cause\": \"memory_leak\",\n  \"supporting_evidence_indices\": [0, 1],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"analyze_heap_dump\",\n  \"risk\": \"high\"\n}",
+      "attempt": 1
     },
     {
       "role": "user",
@@ -59,16 +60,17 @@
     },
     {
       "role": "assistant",
-      "step": "verify_raw",
-      "content": "{\n  \"verdict\": \"revise\",\n  \"revised_confidence\": 0.6,\n  \"reason\": \"Evidence supports an OOM, but not specifically a memory leak. High memory usage could be transient or expected for a workload. More evidence needed to confirm a leak.\"\n}"
+      "step": "verification_raw",
+      "content": "{\n  \"verdict\": \"confirm\",\n  \"revised_confidence\": 0.9,\n  \"reason\": \"Evidence directly supports OutOfMemoryError and high memory usage. Confidence is justified.\"\n}",
+      "attempt": 1
     },
     {
       "role": "checkpoint",
       "step": "verification_verdict",
       "content": {
-        "verdict": "revise",
-        "revised_confidence": 0.6,
-        "reason": "Evidence supports an OOM, but not specifically a memory leak. High memory usage could be transient or expected for a workload. More evidence needed to confirm a leak."
+        "verdict": "confirm",
+        "revised_confidence": 0.9,
+        "reason": "Evidence directly supports OutOfMemoryError and high memory usage. Confidence is justified."
       }
     }
   ]

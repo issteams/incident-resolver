@@ -69,6 +69,49 @@ Respond with ONLY JSON:
 def _format_evidence(evidence: list[Evidence]) -> str:
     return "\n".join(f"[{i}] ({e.source}) {e.finding}" for i, e in enumerate(evidence))
 
+def _complete_json(
+    client: LLMClient,
+    system: str,
+    user: str,
+    trajectory: list[dict],
+    step: str,
+) -> tuple[dict, float]:
+    total_latency = 0.0
+
+    for attempt in range(2):
+        response = client.complete(
+            system=system,
+            user=user,
+            json_mode=True,
+            max_tokens=1500,
+        )
+        total_latency += response.latency_seconds
+
+        trajectory.append(
+            {
+                "role": "assistant",
+                "step": f"{step}_raw",
+                "content": response.text,
+                "attempt": attempt + 1,
+            }
+        )
+
+        try:
+            return LLMClient.parse_json(response.text), total_latency
+        except (json.JSONDecodeError, ValueError) as exc:
+            if attempt == 0:
+                trajectory.append(
+                    {
+                        "role": "retry",
+                        "step": f"{step}_json_parse_retry",
+                        "content": str(exc),
+                    }
+                )
+                continue
+            raise
+
+    raise RuntimeError(f"Failed to obtain valid JSON for {step}")
+
 
 def run_advanced(incident: Incident, client: LLMClient | None = None) -> AgentResult:
     client = client or LLMClient()
@@ -121,14 +164,22 @@ def run_advanced(incident: Incident, client: LLMClient | None = None) -> AgentRe
         f"Service: {incident.service}\nSummary: {incident.summary}\n\n"
         f"Evidence:\n{evidence_block}"
     )
-    diag_resp = client.complete(
-        system=DIAGNOSIS_SYSTEM_PROMPT, user=diag_user_prompt, json_mode=True
+    trajectory.append(
+        {
+            "role": "user",
+            "step": "diagnosis_prompt",
+            "content": diag_user_prompt,
+        }
     )
-    total_latency += diag_resp.latency_seconds
-    trajectory.append({"role": "user", "step": "diagnosis_prompt", "content": diag_user_prompt})
-    trajectory.append({"role": "assistant", "step": "diagnosis_raw", "content": diag_resp.text})
-    diag_parsed = LLMClient.parse_json(diag_resp.text)
 
+    diag_parsed, diag_latency = _complete_json(
+        client,
+        DIAGNOSIS_SYSTEM_PROMPT,
+        diag_user_prompt,
+        trajectory,
+        "diagnosis",
+    )
+    total_latency += diag_latency
     # attach evidence to the diagnosis based on cited indices
     cited_indices = diag_parsed.get("supporting_evidence_indices", [])
     for idx in cited_indices:
@@ -139,13 +190,22 @@ def run_advanced(incident: Incident, client: LLMClient | None = None) -> AgentRe
     verify_user_prompt = (
         f"Evidence:\n{evidence_block}\n\nProposed diagnosis:\n{json.dumps(diag_parsed, indent=2)}"
     )
-    verify_resp = client.complete(
-        system=VERIFY_SYSTEM_PROMPT, user=verify_user_prompt, json_mode=True
+    trajectory.append(
+        {
+            "role": "user",
+            "step": "verify_prompt",
+            "content": verify_user_prompt,
+        }
     )
-    total_latency += verify_resp.latency_seconds
-    trajectory.append({"role": "user", "step": "verify_prompt", "content": verify_user_prompt})
-    trajectory.append({"role": "assistant", "step": "verify_raw", "content": verify_resp.text})
-    verify_parsed = LLMClient.parse_json(verify_resp.text)
+
+    verify_parsed, verify_latency = _complete_json(
+        client,
+        VERIFY_SYSTEM_PROMPT,
+        verify_user_prompt,
+        trajectory,
+        "verification",
+    )
+    total_latency += verify_latency
 
     final_confidence = float(
         verify_parsed.get("revised_confidence", diag_parsed.get("confidence", 0.5))

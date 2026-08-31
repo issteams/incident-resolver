@@ -34,7 +34,7 @@
     "risk": "critical",
     "requires_human_approval": true
   },
-  "latency_seconds": 1.913334570999723,
+  "latency_seconds": 1.7753026709997357,
   "raw_trajectory": [
     {
       "role": "system",

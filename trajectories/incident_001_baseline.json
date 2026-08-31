@@ -7,7 +7,7 @@
     "evidence": [
       {
         "source": "baseline_llm",
-        "finding": "psycopg2.OperationalError: connection pool exhausted, timeout after 5000ms",
+        "finding": "psycopg2.OperationalError: connection pool exhausted",
         "supports": "db_connection_pool_exhaustion"
       },
       {
@@ -17,29 +17,19 @@
       },
       {
         "source": "baseline_llm",
-        "finding": "deploy: reduced db pool_size from 30 to 10 (cost optimization)",
-        "supports": "db_connection_pool_exhaustion"
-      },
-      {
-        "source": "baseline_llm",
-        "finding": "max_connections = 10",
-        "supports": "db_connection_pool_exhaustion"
-      },
-      {
-        "source": "baseline_llm",
-        "finding": "pool_size = 10",
+        "finding": "deploy: reduced db pool_size from 30 to 10",
         "supports": "db_connection_pool_exhaustion"
       }
     ],
     "confidence": 0.9,
-    "severity": "critical"
+    "severity": "high"
   },
   "remediation": {
-    "action": "revert_db_pool_size_to_30",
+    "action": "Rollback db pool_size to 30",
     "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 7.574322620000203,
+  "latency_seconds": 3.2150866060001135,
   "raw_trajectory": [
     {
       "role": "system",
@@ -51,7 +41,7 @@
     },
     {
       "role": "assistant",
-      "content": "{\n  \"root_cause\": \"db_connection_pool_exhaustion\",\n  \"evidence\": [\n    \"psycopg2.OperationalError: connection pool exhausted, timeout after 5000ms\",\n    \"connection_pool_utilization = 0.99\",\n    \"deploy: reduced db pool_size from 30 to 10 (cost optimization)\",\n    \"max_connections = 10\",\n    \"pool_size = 10\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"revert_db_pool_size_to_30\",\n  \"risk\": \"high\"\n}"
+      "content": "{\n  \"root_cause\": \"db_connection_pool_exhaustion\",\n  \"evidence\": [\n    \"psycopg2.OperationalError: connection pool exhausted\",\n    \"connection_pool_utilization = 0.99\",\n    \"deploy: reduced db pool_size from 30 to 10\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Rollback db pool_size to 30\",\n  \"risk\": \"high\"\n}"
     }
   ]
 }

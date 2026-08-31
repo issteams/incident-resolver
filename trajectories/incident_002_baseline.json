@@ -25,11 +25,11 @@
     "severity": "high"
   },
   "remediation": {
-    "action": "investigate_redis_service_status",
+    "action": "Investigate Redis service availability and connectivity",
     "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 1.8351796939996348,
+  "latency_seconds": 1.937673413000084,
   "raw_trajectory": [
     {
       "role": "system",
@@ -41,7 +41,7 @@
     },
     {
       "role": "assistant",
-      "content": "{\n  \"root_cause\": \"redis_connection_refused\",\n  \"evidence\": [\n    \"redis.exceptions.ConnectionError: Error 111 connecting to redis:6379. Connection refused.\",\n    \"session cache unavailable, falling back to degraded mode\",\n    \"error_rate = 0.61\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"investigate_redis_service_status\",\n  \"risk\": \"high\"\n}"
+      "content": "{\n  \"root_cause\": \"redis_connection_refused\",\n  \"evidence\": [\n    \"redis.exceptions.ConnectionError: Error 111 connecting to redis:6379. Connection refused.\",\n    \"session cache unavailable, falling back to degraded mode\",\n    \"error_rate = 0.61\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Investigate Redis service availability and connectivity\",\n  \"risk\": \"high\"\n}"
     }
   ]
 }

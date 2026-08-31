@@ -11,7 +11,7 @@
         "supports": "disk_full"
       }
     ],
-    "confidence": 0.6,
+    "confidence": 0.7,
     "severity": "high"
   },
   "remediation": {
@@ -19,7 +19,7 @@
     "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 3.0922752929991475,
+  "latency_seconds": 4.2325593610003125,
   "raw_trajectory": [
     {
       "role": "tool",
@@ -40,7 +40,8 @@
     {
       "role": "assistant",
       "step": "diagnosis_raw",
-      "content": "{\n  \"root_cause\": \"disk_full\",\n  \"supporting_evidence_indices\": [\n    0\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"clear disk space\",\n  \"risk\": \"high\"\n}"
+      "content": "{\n  \"root_cause\": \"disk_full\",\n  \"supporting_evidence_indices\": [\n    0\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"clear disk space\",\n  \"risk\": \"high\"\n}",
+      "attempt": 1
     },
     {
       "role": "user",
@@ -49,16 +50,17 @@
     },
     {
       "role": "assistant",
-      "step": "verify_raw",
-      "content": "{\n  \"verdict\": \"revise\",\n  \"revised_confidence\": 0.6,\n  \"reason\": \"While the evidence directly points to 'No space left on device', a single log line is not sufficient for 0.9 confidence. More corroborating evidence (e.g., disk usage metrics, multiple affected services) would be needed to justify such high confidence.\"\n}"
+      "step": "verification_raw",
+      "content": "{\n  \"verdict\": \"revise\",\n  \"revised_confidence\": 0.7,\n  \"reason\": \"Evidence [0] directly points to 'No space left on device', which strongly supports 'disk_full'. However, a single log line, while direct, doesn't warrant a 0.9 confidence without further corroboration (e.g., df -h output, multiple services failing due to disk space).\"\n}",
+      "attempt": 1
     },
     {
       "role": "checkpoint",
       "step": "verification_verdict",
       "content": {
         "verdict": "revise",
-        "revised_confidence": 0.6,
-        "reason": "While the evidence directly points to 'No space left on device', a single log line is not sufficient for 0.9 confidence. More corroborating evidence (e.g., disk usage metrics, multiple affected services) would be needed to justify such high confidence."
+        "revised_confidence": 0.7,
+        "reason": "Evidence [0] directly points to 'No space left on device', which strongly supports 'disk_full'. However, a single log line, while direct, doesn't warrant a 0.9 confidence without further corroboration (e.g., df -h output, multiple services failing due to disk space)."
       }
     }
   ]

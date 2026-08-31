@@ -29,7 +29,7 @@
     "risk": "critical",
     "requires_human_approval": true
   },
-  "latency_seconds": 2.708884990000115,
+  "latency_seconds": 3.9906397569993715,
   "raw_trajectory": [
     {
       "role": "tool",
@@ -60,7 +60,8 @@
     {
       "role": "assistant",
       "step": "diagnosis_raw",
-      "content": "{\n  \"root_cause\": \"blocking_schema_migration\",\n  \"supporting_evidence_indices\": [\n    0,\n    1,\n    2\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"rollback_schema_migration\",\n  \"risk\": \"critical\"\n}"
+      "content": "{\n  \"root_cause\": \"blocking_schema_migration\",\n  \"supporting_evidence_indices\": [\n    0,\n    1,\n    2\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"rollback_schema_migration\",\n  \"risk\": \"critical\"\n}",
+      "attempt": 1
     },
     {
       "role": "user",
@@ -69,8 +70,9 @@
     },
     {
       "role": "assistant",
-      "step": "verify_raw",
-      "content": "{\n  \"verdict\": \"confirm\",\n  \"revised_confidence\": 0.9,\n  \"reason\": \"All evidence items exist and strongly support the diagnosis. The confidence is justified given the direct correlation between the schema migration and the observed errors/latency.\"\n}"
+      "step": "verification_raw",
+      "content": "{\n  \"verdict\": \"confirm\",\n  \"revised_confidence\": 0.9,\n  \"reason\": \"All evidence items exist and strongly support the diagnosis. The confidence is justified given the direct correlation between the schema migration and the observed errors/latency.\"\n}",
+      "attempt": 1
     },
     {
       "role": "checkpoint",

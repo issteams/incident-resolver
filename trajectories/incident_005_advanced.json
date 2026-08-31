@@ -21,7 +21,7 @@
         "supports": ""
       }
     ],
-    "confidence": 0.9,
+    "confidence": 0.6,
     "severity": "high"
   },
   "remediation": {
@@ -29,7 +29,7 @@
     "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 6.978246960999968,
+  "latency_seconds": 3.2307872109995515,
   "raw_trajectory": [
     {
       "role": "tool",
@@ -60,7 +60,8 @@
     {
       "role": "assistant",
       "step": "diagnosis_raw",
-      "content": "{\n  \"root_cause\": \"downstream_dependency_failure\",\n  \"supporting_evidence_indices\": [0],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"investigate_email_provider_status\",\n  \"risk\": \"high\"\n}"
+      "content": "{\n  \"root_cause\": \"downstream_dependency_failure\",\n  \"supporting_evidence_indices\": [0],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"investigate_email_provider_status\",\n  \"risk\": \"high\"\n}",
+      "attempt": 1
     },
     {
       "role": "user",
@@ -69,16 +70,17 @@
     },
     {
       "role": "assistant",
-      "step": "verify_raw",
-      "content": "{\n  \"verdict\": \"confirm\",\n  \"revised_confidence\": 0.9,\n  \"reason\": \"Evidence [0] directly indicates a downstream dependency failure. The confidence is justified as it's a direct error message.\"\n}"
+      "step": "verification_raw",
+      "content": "{\n  \"verdict\": \"revise\",\n  \"revised_confidence\": 0.6,\n  \"reason\": \"Only one piece of evidence directly supports the root cause. While plausible, a single log line isn't enough for high confidence without further corroboration.\"\n}",
+      "attempt": 1
     },
     {
       "role": "checkpoint",
       "step": "verification_verdict",
       "content": {
-        "verdict": "confirm",
-        "revised_confidence": 0.9,
-        "reason": "Evidence [0] directly indicates a downstream dependency failure. The confidence is justified as it's a direct error message."
+        "verdict": "revise",
+        "revised_confidence": 0.6,
+        "reason": "Only one piece of evidence directly supports the root cause. While plausible, a single log line isn't enough for high confidence without further corroboration."
       }
     }
   ]

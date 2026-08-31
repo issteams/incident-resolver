@@ -7,7 +7,12 @@
     "evidence": [
       {
         "source": "baseline_llm",
-        "finding": "json.JSONDecodeError: malformed message, worker retrying indefinitely",
+        "finding": "json.JSONDecodeError: malformed message",
+        "supports": "poison_message"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "worker retrying indefinitely",
         "supports": "poison_message"
       },
       {
@@ -30,11 +35,11 @@
     "severity": "critical"
   },
   "remediation": {
-    "action": "Identify and remove poison message from queue, deploy dead-letter queue for future malformed messages",
+    "action": "Isolate and remove poison message from queue, deploy fix to handle malformed messages gracefully",
     "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 1.6377309010003955,
+  "latency_seconds": 2.0314694819999204,
   "raw_trajectory": [
     {
       "role": "system",
@@ -46,7 +51,7 @@
     },
     {
       "role": "assistant",
-      "content": "{\n  \"root_cause\": \"poison_message\",\n  \"evidence\": [\n    \"json.JSONDecodeError: malformed message, worker retrying indefinitely\",\n    \"queue depth growing, no messages processed in 15 minutes\",\n    \"error_rate = 1.0\",\n    \"retry_count = 999\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"Identify and remove poison message from queue, deploy dead-letter queue for future malformed messages\",\n  \"risk\": \"high\"\n}"
+      "content": "{\n  \"root_cause\": \"poison_message\",\n  \"evidence\": [\n    \"json.JSONDecodeError: malformed message\",\n    \"worker retrying indefinitely\",\n    \"queue depth growing, no messages processed in 15 minutes\",\n    \"error_rate = 1.0\",\n    \"retry_count = 999\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"Isolate and remove poison message from queue, deploy fix to handle malformed messages gracefully\",\n  \"risk\": \"high\"\n}"
     }
   ]
 }

@@ -14,6 +14,11 @@
         "source": "baseline_llm",
         "finding": "ntp_sync_status = drifted_180s",
         "supports": "ntp_drift"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "error_rate = 0.25",
+        "supports": "ntp_drift"
       }
     ],
     "confidence": 0.9,
@@ -24,7 +29,7 @@
     "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 1.4501541030003864,
+  "latency_seconds": 3.2599545250004667,
   "raw_trajectory": [
     {
       "role": "system",
@@ -36,7 +41,7 @@
     },
     {
       "role": "assistant",
-      "content": "{\n  \"root_cause\": \"ntp_drift\",\n  \"evidence\": [\n    \"ValueError: event timestamp is in the future relative to server clock\",\n    \"ntp_sync_status = drifted_180s\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Resync NTP on affected servers\",\n  \"risk\": \"high\"\n}"
+      "content": "{\n  \"root_cause\": \"ntp_drift\",\n  \"evidence\": [\n    \"ValueError: event timestamp is in the future relative to server clock\",\n    \"ntp_sync_status = drifted_180s\",\n    \"error_rate = 0.25\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Resync NTP on affected servers\",\n  \"risk\": \"high\"\n}"
     }
   ]
 }

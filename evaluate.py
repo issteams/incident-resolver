@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from incident_resolver.evaluation.runner import run_evaluation, print_report
+from incident_resolver.evaluation import run_evaluation, print_report
 
 
 if __name__ == "__main__":

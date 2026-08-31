@@ -3,28 +3,28 @@
   "agent_name": "advanced",
   "diagnosis": {
     "incident_id": "incident_011",
-    "root_cause": "expired_tls_certificate",
+    "root_cause": "expired_ssl_certificate",
     "evidence": [
       {
         "source": "log_analyzer",
         "finding": "[2026-08-30T00:01:00Z] ERROR: SSL: CERTIFICATE_VERIFY_FAILED: certificate has expired",
-        "supports": "expired_tls_certificate"
+        "supports": "expired_ssl_certificate"
       },
       {
         "source": "metrics_analyzer",
         "finding": "error_rate = 0.55 (>= threshold 0.05)",
-        "supports": "expired_tls_certificate"
+        "supports": "expired_ssl_certificate"
       }
     ],
-    "confidence": 0.9,
+    "confidence": 0.7,
     "severity": "critical"
   },
   "remediation": {
-    "action": "Renew and deploy TLS certificate",
+    "action": "renew_and_deploy_ssl_certificate",
     "risk": "critical",
     "requires_human_approval": true
   },
-  "latency_seconds": 6.14369539100062,
+  "latency_seconds": 3.5482573339995724,
   "raw_trajectory": [
     {
       "role": "tool",
@@ -50,25 +50,27 @@
     {
       "role": "assistant",
       "step": "diagnosis_raw",
-      "content": "{\n  \"root_cause\": \"expired_tls_certificate\",\n  \"supporting_evidence_indices\": [\n    0,\n    1\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"Renew and deploy TLS certificate\",\n  \"risk\": \"critical\"\n}"
+      "content": "{\n  \"root_cause\": \"expired_ssl_certificate\",\n  \"supporting_evidence_indices\": [0, 1],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"renew_and_deploy_ssl_certificate\",\n  \"risk\": \"critical\"\n}",
+      "attempt": 1
     },
     {
       "role": "user",
       "step": "verify_prompt",
-      "content": "Evidence:\n[0] (log_analyzer) [2026-08-30T00:01:00Z] ERROR: SSL: CERTIFICATE_VERIFY_FAILED: certificate has expired\n[1] (metrics_analyzer) error_rate = 0.55 (>= threshold 0.05)\n\nProposed diagnosis:\n{\n  \"root_cause\": \"expired_tls_certificate\",\n  \"supporting_evidence_indices\": [\n    0,\n    1\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"Renew and deploy TLS certificate\",\n  \"risk\": \"critical\"\n}"
+      "content": "Evidence:\n[0] (log_analyzer) [2026-08-30T00:01:00Z] ERROR: SSL: CERTIFICATE_VERIFY_FAILED: certificate has expired\n[1] (metrics_analyzer) error_rate = 0.55 (>= threshold 0.05)\n\nProposed diagnosis:\n{\n  \"root_cause\": \"expired_ssl_certificate\",\n  \"supporting_evidence_indices\": [\n    0,\n    1\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"renew_and_deploy_ssl_certificate\",\n  \"risk\": \"critical\"\n}"
     },
     {
       "role": "assistant",
-      "step": "verify_raw",
-      "content": "{\n  \"verdict\": \"confirm\",\n  \"revised_confidence\": 0.9,\n  \"reason\": \"Evidence [0] directly points to an expired certificate. Evidence [1] shows a high error rate, which is a plausible symptom of an expired certificate causing connection failures. The confidence is justified.\"\n}"
+      "step": "verification_raw",
+      "content": "{\n  \"verdict\": \"revise\",\n  \"revised_confidence\": 0.7,\n  \"reason\": \"Evidence [1] (high error rate) is a symptom, not direct support for the root cause. Only [0] directly supports the expired certificate. Confidence should be lower without more direct evidence linking the error rate to the certificate.\"\n}",
+      "attempt": 1
     },
     {
       "role": "checkpoint",
       "step": "verification_verdict",
       "content": {
-        "verdict": "confirm",
-        "revised_confidence": 0.9,
-        "reason": "Evidence [0] directly points to an expired certificate. Evidence [1] shows a high error rate, which is a plausible symptom of an expired certificate causing connection failures. The confidence is justified."
+        "verdict": "revise",
+        "revised_confidence": 0.7,
+        "reason": "Evidence [1] (high error rate) is a symptom, not direct support for the root cause. Only [0] directly supports the expired certificate. Confidence should be lower without more direct evidence linking the error rate to the certificate."
       }
     }
   ]

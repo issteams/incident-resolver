@@ -30,11 +30,11 @@
     "severity": "high"
   },
   "remediation": {
-    "action": "throttle traffic from acme_corp and scale webhook-receiver",
+    "action": "throttle acme_corp traffic and scale webhook-receiver",
     "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 3.1858752930002083,
+  "latency_seconds": 2.084427367999524,
   "raw_trajectory": [
     {
       "role": "system",
@@ -46,7 +46,7 @@
     },
     {
       "role": "assistant",
-      "content": "{\n  \"root_cause\": \"unexpected_traffic_spike\",\n  \"evidence\": [\n    \"inbound request rate 10x baseline from partner_id=acme_corp\",\n    \"request queue saturated, dropping requests from all partners\",\n    \"error_rate = 0.35\",\n    \"cpu_percent = 88.0%\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"throttle traffic from acme_corp and scale webhook-receiver\",\n  \"risk\": \"high\"\n}"
+      "content": "{\n  \"root_cause\": \"unexpected_traffic_spike\",\n  \"evidence\": [\n    \"inbound request rate 10x baseline from partner_id=acme_corp\",\n    \"request queue saturated, dropping requests from all partners\",\n    \"error_rate = 0.35\",\n    \"cpu_percent = 88.0%\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"throttle acme_corp traffic and scale webhook-receiver\",\n  \"risk\": \"high\"\n}"
     }
   ]
 }

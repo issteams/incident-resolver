@@ -3,33 +3,33 @@
   "agent_name": "baseline",
   "diagnosis": {
     "incident_id": "incident_003",
-    "root_cause": "jwt_secret_mismatch",
+    "root_cause": "jwt_signature_mismatch",
     "evidence": [
       {
         "source": "baseline_llm",
         "finding": "jwt.exceptions.InvalidSignatureError in logs",
-        "supports": "jwt_secret_mismatch"
+        "supports": "jwt_signature_mismatch"
       },
       {
         "source": "baseline_llm",
         "finding": "Recent deployment rotated JWT signing secret without updating verifier config",
-        "supports": "jwt_secret_mismatch"
+        "supports": "jwt_signature_mismatch"
       },
       {
         "source": "baseline_llm",
-        "finding": "Error rate at 44%",
-        "supports": "jwt_secret_mismatch"
+        "finding": "Increased error rate (0.44)",
+        "supports": "jwt_signature_mismatch"
       }
     ],
     "confidence": 1.0,
-    "severity": "critical"
+    "severity": "high"
   },
   "remediation": {
     "action": "Update auth-service JWT verification secret to match the new signing secret",
-    "risk": "critical",
+    "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 1.6180743500008248,
+  "latency_seconds": 2.029748887999631,
   "raw_trajectory": [
     {
       "role": "system",
@@ -41,7 +41,7 @@
     },
     {
       "role": "assistant",
-      "content": "{\n  \"root_cause\": \"jwt_secret_mismatch\",\n  \"evidence\": [\n    \"jwt.exceptions.InvalidSignatureError in logs\",\n    \"Recent deployment rotated JWT signing secret without updating verifier config\",\n    \"Error rate at 44%\"\n  ],\n  \"confidence\": 1.0,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"Update auth-service JWT verification secret to match the new signing secret\",\n  \"risk\": \"critical\"\n}"
+      "content": "{\n  \"root_cause\": \"jwt_signature_mismatch\",\n  \"evidence\": [\n    \"jwt.exceptions.InvalidSignatureError in logs\",\n    \"Recent deployment rotated JWT signing secret without updating verifier config\",\n    \"Increased error rate (0.44)\"\n  ],\n  \"confidence\": 1.0,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Update auth-service JWT verification secret to match the new signing secret\",\n  \"risk\": \"high\"\n}"
     }
   ]
 }

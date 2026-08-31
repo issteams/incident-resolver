@@ -3,38 +3,38 @@
   "agent_name": "baseline",
   "diagnosis": {
     "incident_id": "incident_006",
-    "root_cause": "memory_exhaustion",
+    "root_cause": "recent_deployment",
     "evidence": [
       {
         "source": "baseline_llm",
         "finding": "MemoryError: unable to allocate array, out of memory",
-        "supports": "memory_exhaustion"
+        "supports": "recent_deployment"
       },
       {
         "source": "baseline_llm",
         "finding": "worker process killed by OOM killer",
-        "supports": "memory_exhaustion"
+        "supports": "recent_deployment"
       },
       {
         "source": "baseline_llm",
         "finding": "memory_percent = 98.0%",
-        "supports": "memory_exhaustion"
+        "supports": "recent_deployment"
       },
       {
         "source": "baseline_llm",
-        "finding": "switched report export from streaming to in-memory pandas dataframe",
-        "supports": "memory_exhaustion"
+        "finding": "deploy: switched report export from streaming to in-memory pandas dataframe",
+        "supports": "recent_deployment"
       }
     ],
     "confidence": 0.9,
-    "severity": "critical"
+    "severity": "high"
   },
   "remediation": {
-    "action": "Revert 'switched report export from streaming to in-memory pandas dataframe' deployment",
-    "risk": "low",
+    "action": "Revert the recent deployment that switched to in-memory pandas dataframe for report export",
+    "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 1.637309090000599,
+  "latency_seconds": 1.8472137850003492,
   "raw_trajectory": [
     {
       "role": "system",
@@ -46,7 +46,7 @@
     },
     {
       "role": "assistant",
-      "content": "{\n  \"root_cause\": \"memory_exhaustion\",\n  \"evidence\": [\n    \"MemoryError: unable to allocate array, out of memory\",\n    \"worker process killed by OOM killer\",\n    \"memory_percent = 98.0%\",\n    \"switched report export from streaming to in-memory pandas dataframe\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"Revert 'switched report export from streaming to in-memory pandas dataframe' deployment\",\n  \"risk\": \"low\"\n}"
+      "content": "{\n  \"root_cause\": \"recent_deployment\",\n  \"evidence\": [\n    \"MemoryError: unable to allocate array, out of memory\",\n    \"worker process killed by OOM killer\",\n    \"memory_percent = 98.0%\",\n    \"deploy: switched report export from streaming to in-memory pandas dataframe\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Revert the recent deployment that switched to in-memory pandas dataframe for report export\",\n  \"risk\": \"high\"\n}"
     }
   ]
 }

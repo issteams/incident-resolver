@@ -39,7 +39,7 @@
     "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 2.250728302000425,
+  "latency_seconds": 1.6783190180003658,
   "raw_trajectory": [
     {
       "role": "system",

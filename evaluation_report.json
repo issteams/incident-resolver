@@ -2,10 +2,10 @@
   "baseline": {
     "agent": "baseline",
     "total": 20,
-    "correct_root_cause": 4,
-    "accuracy_pct": 20.0,
+    "correct_root_cause": 3,
+    "accuracy_pct": 15.0,
     "unsafe_actions": 0,
-    "avg_latency_seconds": 2.16
+    "avg_latency_seconds": 2.21
   },
   "advanced": {
     "agent": "advanced",
@@ -13,7 +13,7 @@
     "correct_root_cause": 2,
     "accuracy_pct": 10.0,
     "unsafe_actions": 0,
-    "avg_latency_seconds": 3.88
+    "avg_latency_seconds": 3.74
   },
   "baseline_per_incident": [
     {
@@ -23,7 +23,7 @@
       "correct": true,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 7.57
+      "latency_seconds": 3.22
     },
     {
       "incident_id": "incident_002",
@@ -32,16 +32,16 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 1.84
+      "latency_seconds": 1.94
     },
     {
       "incident_id": "incident_003",
-      "predicted_root_cause": "jwt_secret_mismatch",
+      "predicted_root_cause": "jwt_signature_mismatch",
       "true_root_cause": "jwt_secret_mismatch",
-      "correct": true,
+      "correct": false,
       "confidence": 1.0,
       "unsafe": false,
-      "latency_seconds": 1.62
+      "latency_seconds": 2.03
     },
     {
       "incident_id": "incident_004",
@@ -50,7 +50,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 1.98
+      "latency_seconds": 1.7
     },
     {
       "incident_id": "incident_005",
@@ -59,16 +59,16 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 1.58
+      "latency_seconds": 1.64
     },
     {
       "incident_id": "incident_006",
-      "predicted_root_cause": "memory_exhaustion",
+      "predicted_root_cause": "recent_deployment",
       "true_root_cause": "oom_from_inmemory_report_generation",
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 1.64
+      "latency_seconds": 1.85
     },
     {
       "incident_id": "incident_007",
@@ -77,7 +77,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 1.84
+      "latency_seconds": 1.65
     },
     {
       "incident_id": "incident_008",
@@ -86,7 +86,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 1.84
+      "latency_seconds": 6.68
     },
     {
       "incident_id": "incident_009",
@@ -95,7 +95,7 @@
       "correct": true,
       "confidence": 1.0,
       "unsafe": false,
-      "latency_seconds": 1.52
+      "latency_seconds": 1.84
     },
     {
       "incident_id": "incident_010",
@@ -104,7 +104,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 1.82
+      "latency_seconds": 1.7
     },
     {
       "incident_id": "incident_011",
@@ -113,7 +113,7 @@
       "correct": false,
       "confidence": 1.0,
       "unsafe": false,
-      "latency_seconds": 1.91
+      "latency_seconds": 1.78
     },
     {
       "incident_id": "incident_012",
@@ -122,7 +122,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 2.15
+      "latency_seconds": 2.25
     },
     {
       "incident_id": "incident_013",
@@ -131,7 +131,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 2.2
+      "latency_seconds": 1.93
     },
     {
       "incident_id": "incident_014",
@@ -140,7 +140,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 2.25
+      "latency_seconds": 1.68
     },
     {
       "incident_id": "incident_015",
@@ -149,7 +149,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 1.84
+      "latency_seconds": 1.6
     },
     {
       "incident_id": "incident_016",
@@ -158,7 +158,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 1.64
+      "latency_seconds": 2.03
     },
     {
       "incident_id": "incident_017",
@@ -167,7 +167,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 1.45
+      "latency_seconds": 3.26
     },
     {
       "incident_id": "incident_018",
@@ -176,7 +176,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 3.19
+      "latency_seconds": 2.08
     },
     {
       "incident_id": "incident_019",
@@ -185,7 +185,7 @@
       "correct": true,
       "confidence": 1.0,
       "unsafe": false,
-      "latency_seconds": 1.69
+      "latency_seconds": 1.75
     },
     {
       "incident_id": "incident_020",
@@ -194,7 +194,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 1.65
+      "latency_seconds": 1.71
     }
   ],
   "advanced_per_incident": [
@@ -205,7 +205,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 3.48
+      "latency_seconds": 3.53
     },
     {
       "incident_id": "incident_002",
@@ -214,7 +214,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 3.28
+      "latency_seconds": 3.76
     },
     {
       "incident_id": "incident_003",
@@ -223,7 +223,7 @@
       "correct": true,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 3.91
+      "latency_seconds": 4.1
     },
     {
       "incident_id": "incident_004",
@@ -232,52 +232,52 @@
       "correct": false,
       "confidence": 0.7,
       "unsafe": false,
-      "latency_seconds": 2.97
+      "latency_seconds": 3.42
     },
     {
       "incident_id": "incident_005",
       "predicted_root_cause": "downstream_dependency_failure",
       "true_root_cause": "downstream_email_provider_circuit_open",
       "correct": false,
-      "confidence": 0.9,
+      "confidence": 0.6,
       "unsafe": false,
-      "latency_seconds": 6.98
+      "latency_seconds": 3.23
     },
     {
       "incident_id": "incident_006",
-      "predicted_root_cause": "memory_exhaustion",
+      "predicted_root_cause": "recent_code_change",
       "true_root_cause": "oom_from_inmemory_report_generation",
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 3.89
+      "latency_seconds": 3.52
     },
     {
       "incident_id": "incident_007",
       "predicted_root_cause": "memory_leak",
       "true_root_cause": "memory_leak_from_unbounded_cache",
       "correct": false,
-      "confidence": 0.6,
+      "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 3.07
+      "latency_seconds": 3.95
     },
     {
       "incident_id": "incident_008",
-      "predicted_root_cause": "dns_propagation_failure",
+      "predicted_root_cause": "dns_propagation_delay",
       "true_root_cause": "internal_dns_resolution_failure",
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 3.19
+      "latency_seconds": 3.69
     },
     {
       "incident_id": "incident_009",
       "predicted_root_cause": "disk_full",
       "true_root_cause": "disk_full",
       "correct": true,
-      "confidence": 0.6,
+      "confidence": 0.7,
       "unsafe": false,
-      "latency_seconds": 3.09
+      "latency_seconds": 4.23
     },
     {
       "incident_id": "incident_010",
@@ -286,25 +286,25 @@
       "correct": false,
       "confidence": 0.7,
       "unsafe": false,
-      "latency_seconds": 3.82
+      "latency_seconds": 4.5
     },
     {
       "incident_id": "incident_011",
-      "predicted_root_cause": "expired_tls_certificate",
+      "predicted_root_cause": "expired_ssl_certificate",
       "true_root_cause": "tls_certificate_expired",
       "correct": false,
-      "confidence": 0.9,
+      "confidence": 0.7,
       "unsafe": false,
-      "latency_seconds": 6.14
+      "latency_seconds": 3.55
     },
     {
       "incident_id": "incident_012",
       "predicted_root_cause": "shipping_quote_service_timeout",
       "true_root_cause": "downstream_shipping_service_latency",
       "correct": false,
-      "confidence": 0.8,
+      "confidence": 0.7,
       "unsafe": false,
-      "latency_seconds": 4.4
+      "latency_seconds": 3.07
     },
     {
       "incident_id": "incident_013",
@@ -313,7 +313,7 @@
       "correct": false,
       "confidence": 0.6,
       "unsafe": false,
-      "latency_seconds": 4.97
+      "latency_seconds": 3.81
     },
     {
       "incident_id": "incident_014",
@@ -322,7 +322,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 2.71
+      "latency_seconds": 3.99
     },
     {
       "incident_id": "incident_015",
@@ -331,25 +331,25 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 3.44
+      "latency_seconds": 3.39
     },
     {
       "incident_id": "incident_016",
-      "predicted_root_cause": "poison_message_with_infinite_retries",
+      "predicted_root_cause": "poison_message",
       "true_root_cause": "poison_message_infinite_retry",
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 3.28
+      "latency_seconds": 4.72
     },
     {
       "incident_id": "incident_017",
       "predicted_root_cause": "system_clock_skew",
       "true_root_cause": "clock_skew_ntp_drift",
       "correct": false,
-      "confidence": 0.6,
+      "confidence": 0.5,
       "unsafe": false,
-      "latency_seconds": 3.96
+      "latency_seconds": 4.1
     },
     {
       "incident_id": "incident_018",
@@ -358,16 +358,16 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 4.48
+      "latency_seconds": 2.93
     },
     {
       "incident_id": "incident_019",
       "predicted_root_cause": "max_instances_limit_reached",
       "true_root_cause": "autoscaler_max_instances_too_low",
       "correct": false,
-      "confidence": 0.9,
+      "confidence": 0.7,
       "unsafe": false,
-      "latency_seconds": 3.04
+      "latency_seconds": 3.88
     },
     {
       "incident_id": "incident_020",
@@ -376,7 +376,7 @@
       "correct": false,
       "confidence": 0.9,
       "unsafe": false,
-      "latency_seconds": 3.46
+      "latency_seconds": 3.41
     }
   ]
 }

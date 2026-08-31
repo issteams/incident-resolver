@@ -31,7 +31,7 @@
         "supports": ""
       }
     ],
-    "confidence": 0.8,
+    "confidence": 0.7,
     "severity": "high"
   },
   "remediation": {
@@ -39,7 +39,7 @@
     "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 4.401470898000298,
+  "latency_seconds": 3.070445137999741,
   "raw_trajectory": [
     {
       "role": "tool",
@@ -80,25 +80,27 @@
     {
       "role": "assistant",
       "step": "diagnosis_raw",
-      "content": "{\n  \"root_cause\": \"shipping_quote_service_timeout\",\n  \"supporting_evidence_indices\": [0, 1, 2, 3],\n  \"confidence\": 0.0,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Investigate shipping-quote-service performance\",\n  \"risk\": \"high\"\n}"
+      "content": "{\n  \"root_cause\": \"shipping_quote_service_timeout\",\n  \"supporting_evidence_indices\": [0, 1, 2, 3],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Investigate shipping-quote-service performance\",\n  \"risk\": \"high\"\n}",
+      "attempt": 1
     },
     {
       "role": "user",
       "step": "verify_prompt",
-      "content": "Evidence:\n[0] (log_analyzer) [2026-08-30T13:10:00Z] ERROR: httpx.ReadTimeout: shipping-quote-service did not respond within 3000ms\n[1] (metrics_analyzer) latency_ms = 3000.0ms (>= threshold 500)\n[2] (metrics_analyzer) error_rate = 0.3 (>= threshold 0.05)\n[3] (config_check) config.timeout_ms = 3000\n[4] (config_check) config.retry_count = 3\n\nProposed diagnosis:\n{\n  \"root_cause\": \"shipping_quote_service_timeout\",\n  \"supporting_evidence_indices\": [\n    0,\n    1,\n    2,\n    3\n  ],\n  \"confidence\": 0.0,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Investigate shipping-quote-service performance\",\n  \"risk\": \"high\"\n}"
+      "content": "Evidence:\n[0] (log_analyzer) [2026-08-30T13:10:00Z] ERROR: httpx.ReadTimeout: shipping-quote-service did not respond within 3000ms\n[1] (metrics_analyzer) latency_ms = 3000.0ms (>= threshold 500)\n[2] (metrics_analyzer) error_rate = 0.3 (>= threshold 0.05)\n[3] (config_check) config.timeout_ms = 3000\n[4] (config_check) config.retry_count = 3\n\nProposed diagnosis:\n{\n  \"root_cause\": \"shipping_quote_service_timeout\",\n  \"supporting_evidence_indices\": [\n    0,\n    1,\n    2,\n    3\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Investigate shipping-quote-service performance\",\n  \"risk\": \"high\"\n}"
     },
     {
       "role": "assistant",
-      "step": "verify_raw",
-      "content": "{\n  \"verdict\": \"revise\",\n  \"revised_confidence\": 0.8,\n  \"reason\": \"All cited evidence exists and supports the root cause. The confidence was set to 0.0 which is incorrect given the strong evidence.\"\n}"
+      "step": "verification_raw",
+      "content": "{\n  \"verdict\": \"revise\",\n  \"revised_confidence\": 0.7,\n  \"reason\": \"Evidence [2] (error_rate) is a symptom, not direct support for the root cause. Evidence [3] (timeout config) is a configuration detail, not direct evidence of a timeout occurring. Confidence should be slightly lower as direct evidence is primarily [0] and [1].\"\n}",
+      "attempt": 1
     },
     {
       "role": "checkpoint",
       "step": "verification_verdict",
       "content": {
         "verdict": "revise",
-        "revised_confidence": 0.8,
-        "reason": "All cited evidence exists and supports the root cause. The confidence was set to 0.0 which is incorrect given the strong evidence."
+        "revised_confidence": 0.7,
+        "reason": "Evidence [2] (error_rate) is a symptom, not direct support for the root cause. Evidence [3] (timeout config) is a configuration detail, not direct evidence of a timeout occurring. Confidence should be slightly lower as direct evidence is primarily [0] and [1]."
       }
     }
   ]

@@ -3,38 +3,38 @@
   "agent_name": "advanced",
   "diagnosis": {
     "incident_id": "incident_006",
-    "root_cause": "memory_exhaustion",
+    "root_cause": "recent_code_change",
     "evidence": [
       {
         "source": "log_analyzer",
         "finding": "[2026-08-30T02:05:00Z] ERROR: MemoryError: unable to allocate array, out of memory",
-        "supports": "memory_exhaustion"
+        "supports": "recent_code_change"
       },
       {
         "source": "log_analyzer",
         "finding": "[2026-08-30T02:05:01Z] CRITICAL: worker process killed by OOM killer",
-        "supports": "memory_exhaustion"
+        "supports": "recent_code_change"
       },
       {
         "source": "metrics_analyzer",
         "finding": "memory_percent = 98.0% (>= threshold 85)",
-        "supports": "memory_exhaustion"
+        "supports": "recent_code_change"
       },
       {
         "source": "history_search",
         "finding": "[2026-08-30T01:50:00Z] deploy: switched report export from streaming to in-memory pandas dataframe (within 0:30:00 of incident)",
-        "supports": "memory_exhaustion"
+        "supports": "recent_code_change"
       }
     ],
     "confidence": 0.9,
     "severity": "high"
   },
   "remediation": {
-    "action": "Revert report export to streaming or increase memory allocation",
+    "action": "revert_code_change",
     "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 3.8906297969997468,
+  "latency_seconds": 3.5204085929999565,
   "raw_trajectory": [
     {
       "role": "tool",
@@ -70,17 +70,19 @@
     {
       "role": "assistant",
       "step": "diagnosis_raw",
-      "content": "{\n  \"root_cause\": \"memory_exhaustion\",\n  \"supporting_evidence_indices\": [\n    0,\n    1,\n    2,\n    3\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Revert report export to streaming or increase memory allocation\",\n  \"risk\": \"high\"\n}"
+      "content": "{\n  \"root_cause\": \"recent_code_change\",\n  \"supporting_evidence_indices\": [\n    0,\n    1,\n    2,\n    3\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"revert_code_change\",\n  \"risk\": \"high\"\n}",
+      "attempt": 1
     },
     {
       "role": "user",
       "step": "verify_prompt",
-      "content": "Evidence:\n[0] (log_analyzer) [2026-08-30T02:05:00Z] ERROR: MemoryError: unable to allocate array, out of memory\n[1] (log_analyzer) [2026-08-30T02:05:01Z] CRITICAL: worker process killed by OOM killer\n[2] (metrics_analyzer) memory_percent = 98.0% (>= threshold 85)\n[3] (history_search) [2026-08-30T01:50:00Z] deploy: switched report export from streaming to in-memory pandas dataframe (within 0:30:00 of incident)\n\nProposed diagnosis:\n{\n  \"root_cause\": \"memory_exhaustion\",\n  \"supporting_evidence_indices\": [\n    0,\n    1,\n    2,\n    3\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Revert report export to streaming or increase memory allocation\",\n  \"risk\": \"high\"\n}"
+      "content": "Evidence:\n[0] (log_analyzer) [2026-08-30T02:05:00Z] ERROR: MemoryError: unable to allocate array, out of memory\n[1] (log_analyzer) [2026-08-30T02:05:01Z] CRITICAL: worker process killed by OOM killer\n[2] (metrics_analyzer) memory_percent = 98.0% (>= threshold 85)\n[3] (history_search) [2026-08-30T01:50:00Z] deploy: switched report export from streaming to in-memory pandas dataframe (within 0:30:00 of incident)\n\nProposed diagnosis:\n{\n  \"root_cause\": \"recent_code_change\",\n  \"supporting_evidence_indices\": [\n    0,\n    1,\n    2,\n    3\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"revert_code_change\",\n  \"risk\": \"high\"\n}"
     },
     {
       "role": "assistant",
-      "step": "verify_raw",
-      "content": "{\n  \"verdict\": \"confirm\",\n  \"revised_confidence\": 0.9,\n  \"reason\": \"All evidence indices exist and directly support the memory exhaustion diagnosis. The confidence is justified given multiple corroborating sources (logs, metrics, and recent deployment history).\"\n}"
+      "step": "verification_raw",
+      "content": "{\n  \"verdict\": \"confirm\",\n  \"revised_confidence\": 0.9,\n  \"reason\": \"All evidence indices exist and directly support the diagnosis. The combination of OOM errors, high memory usage, and a recent code change directly preceding the incident that increases memory consumption provides strong corroboration.\"\n}",
+      "attempt": 1
     },
     {
       "role": "checkpoint",
@@ -88,7 +90,7 @@
       "content": {
         "verdict": "confirm",
         "revised_confidence": 0.9,
-        "reason": "All evidence indices exist and directly support the memory exhaustion diagnosis. The confidence is justified given multiple corroborating sources (logs, metrics, and recent deployment history)."
+        "reason": "All evidence indices exist and directly support the diagnosis. The combination of OOM errors, high memory usage, and a recent code change directly preceding the incident that increases memory consumption provides strong corroboration."
       }
     }
   ]

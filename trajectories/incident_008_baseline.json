@@ -14,17 +14,22 @@
         "source": "baseline_llm",
         "finding": "infra change: migrated internal DNS zone, some service records not yet propagated",
         "supports": "dns_propagation_failure"
+      },
+      {
+        "source": "baseline_llm",
+        "finding": "error_rate = 0.72",
+        "supports": "dns_propagation_failure"
       }
     ],
     "confidence": 0.9,
-    "severity": "critical"
+    "severity": "high"
   },
   "remediation": {
     "action": "Rollback DNS zone migration or manually propagate inventory-service DNS records",
     "risk": "high",
     "requires_human_approval": true
   },
-  "latency_seconds": 1.8384986109995225,
+  "latency_seconds": 6.676346100999581,
   "raw_trajectory": [
     {
       "role": "system",
@@ -36,7 +41,7 @@
     },
     {
       "role": "assistant",
-      "content": "{\n  \"root_cause\": \"dns_propagation_failure\",\n  \"evidence\": [\n    \"socket.gaierror: Name or service not known: inventory-service.internal\",\n    \"infra change: migrated internal DNS zone, some service records not yet propagated\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"critical\",\n  \"recommended_action\": \"Rollback DNS zone migration or manually propagate inventory-service DNS records\",\n  \"risk\": \"high\"\n}"
+      "content": "{\n  \"root_cause\": \"dns_propagation_failure\",\n  \"evidence\": [\n    \"socket.gaierror: Name or service not known: inventory-service.internal\",\n    \"infra change: migrated internal DNS zone, some service records not yet propagated\",\n    \"error_rate = 0.72\"\n  ],\n  \"confidence\": 0.9,\n  \"severity\": \"high\",\n  \"recommended_action\": \"Rollback DNS zone migration or manually propagate inventory-service DNS records\",\n  \"risk\": \"high\"\n}"
     }
   ]
 }
