@@ -1,0 +1,31 @@
+{
+  "id": "incident_017",
+  "service": "fraud-detection-service",
+  "summary": "Timestamps in event stream inconsistent, fraud scoring producing errors",
+  "logs": [
+    {
+      "timestamp": "2026-08-30T06:00:00Z",
+      "level": "INFO",
+      "message": "fraud-detection-service healthy"
+    },
+    {
+      "timestamp": "2026-08-30T06:10:00Z",
+      "level": "ERROR",
+      "message": "ValueError: event timestamp is in the future relative to server clock"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "error_rate",
+      "value": 0.25,
+      "unit": ""
+    }
+  ],
+  "config": {},
+  "recent_deployments": [],
+  "environment": {
+    "region": "ap-southeast-1",
+    "replicas": "3",
+    "ntp_sync_status": "drifted_180s"
+  }
+}

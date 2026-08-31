@@ -1,0 +1,31 @@
+{
+  "id": "incident_011",
+  "service": "webapp-frontend",
+  "summary": "TLS handshake failures reported by users, browser cert warnings",
+  "logs": [
+    {
+      "timestamp": "2026-08-30T00:00:00Z",
+      "level": "INFO",
+      "message": "webapp-frontend healthy"
+    },
+    {
+      "timestamp": "2026-08-30T00:01:00Z",
+      "level": "ERROR",
+      "message": "SSL: CERTIFICATE_VERIFY_FAILED: certificate has expired"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "error_rate",
+      "value": 0.55,
+      "unit": ""
+    }
+  ],
+  "config": {},
+  "recent_deployments": [],
+  "environment": {
+    "region": "global",
+    "replicas": "8",
+    "cert_expiry": "2026-08-29T23:59:00Z"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "incident_002",
+  "service": "payments-api",
+  "summary": "Redis errors across all payment endpoints",
+  "logs": [
+    {"timestamp": "2026-08-30T14:00:00Z", "level": "INFO", "message": "payments-api healthy"},
+    {"timestamp": "2026-08-30T14:05:12Z", "level": "ERROR", "message": "redis.exceptions.ConnectionError: Error 111 connecting to redis:6379. Connection refused."},
+    {"timestamp": "2026-08-30T14:05:14Z", "level": "ERROR", "message": "redis.exceptions.ConnectionError: Error 111 connecting to redis:6379. Connection refused."},
+    {"timestamp": "2026-08-30T14:05:20Z", "level": "CRITICAL", "message": "session cache unavailable, falling back to degraded mode"}
+  ],
+  "metrics": [
+    {"name": "error_rate", "value": 0.61, "unit": ""},
+    {"name": "latency_ms", "value": 220, "unit": "ms"},
+    {"name": "cpu_percent", "value": 22, "unit": "%"}
+  ],
+  "config": {
+    "cache_ttl_seconds": "300",
+    "retry_count": "3"
+  },
+  "recent_deployments": [],
+  "environment": {"region": "eu-west-1", "replicas": "4"}
+}

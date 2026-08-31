@@ -1,0 +1,42 @@
+{
+  "id": "incident_008",
+  "service": "api-gateway",
+  "summary": "All downstream calls to inventory-service failing with DNS errors",
+  "logs": [
+    {
+      "timestamp": "2026-08-30T12:00:00Z",
+      "level": "INFO",
+      "message": "api-gateway healthy"
+    },
+    {
+      "timestamp": "2026-08-30T12:15:03Z",
+      "level": "ERROR",
+      "message": "socket.gaierror: Name or service not known: inventory-service.internal"
+    },
+    {
+      "timestamp": "2026-08-30T12:15:10Z",
+      "level": "ERROR",
+      "message": "socket.gaierror: Name or service not known: inventory-service.internal"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "error_rate",
+      "value": 0.72,
+      "unit": ""
+    }
+  ],
+  "config": {
+    "timeout_ms": "2000"
+  },
+  "recent_deployments": [
+    {
+      "timestamp": "2026-08-30T12:10:00Z",
+      "description": "infra change: migrated internal DNS zone, some service records not yet propagated"
+    }
+  ],
+  "environment": {
+    "region": "us-east-1",
+    "replicas": "4"
+  }
+}

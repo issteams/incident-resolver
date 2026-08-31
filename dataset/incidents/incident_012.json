@@ -1,0 +1,43 @@
+{
+  "id": "incident_012",
+  "service": "order-service",
+  "summary": "Order creation slow, timeouts calling shipping-quote-service",
+  "logs": [
+    {
+      "timestamp": "2026-08-30T13:00:00Z",
+      "level": "INFO",
+      "message": "order-service healthy"
+    },
+    {
+      "timestamp": "2026-08-30T13:10:00Z",
+      "level": "ERROR",
+      "message": "httpx.ReadTimeout: shipping-quote-service did not respond within 3000ms"
+    },
+    {
+      "timestamp": "2026-08-30T13:10:05Z",
+      "level": "ERROR",
+      "message": "httpx.ReadTimeout: shipping-quote-service did not respond within 3000ms"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "latency_ms",
+      "value": 3000,
+      "unit": "ms"
+    },
+    {
+      "name": "error_rate",
+      "value": 0.3,
+      "unit": ""
+    }
+  ],
+  "config": {
+    "timeout_ms": "3000",
+    "retry_count": "3"
+  },
+  "recent_deployments": [],
+  "environment": {
+    "region": "us-east-1",
+    "replicas": "5"
+  }
+}

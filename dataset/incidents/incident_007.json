@@ -1,0 +1,45 @@
+{
+  "id": "incident_007",
+  "service": "billing-service",
+  "summary": "Memory usage climbing steadily over 6 hours, periodic restarts",
+  "logs": [
+    {
+      "timestamp": "2026-08-30T03:00:00Z",
+      "level": "INFO",
+      "message": "billing-service started"
+    },
+    {
+      "timestamp": "2026-08-30T08:45:00Z",
+      "level": "WARN",
+      "message": "heap usage at 89% and rising"
+    },
+    {
+      "timestamp": "2026-08-30T09:00:00Z",
+      "level": "CRITICAL",
+      "message": "OutOfMemoryError, process restarted by supervisor"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "memory_percent",
+      "value": 94,
+      "unit": "%"
+    },
+    {
+      "name": "cpu_percent",
+      "value": 30,
+      "unit": "%"
+    }
+  ],
+  "config": {},
+  "recent_deployments": [
+    {
+      "timestamp": "2026-08-30T02:55:00Z",
+      "description": "deploy: added new invoice-caching layer that never evicts entries"
+    }
+  ],
+  "environment": {
+    "region": "us-east-1",
+    "replicas": "3"
+  }
+}

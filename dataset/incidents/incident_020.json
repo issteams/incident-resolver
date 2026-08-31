@@ -1,0 +1,37 @@
+{
+  "id": "incident_020",
+  "service": "pricing-service",
+  "summary": "Customers seeing stale prices from yesterday despite price update",
+  "logs": [
+    {
+      "timestamp": "2026-08-30T09:00:00Z",
+      "level": "INFO",
+      "message": "pricing-service healthy"
+    },
+    {
+      "timestamp": "2026-08-30T09:05:00Z",
+      "level": "WARN",
+      "message": "price update published but cache not invalidated"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "error_rate",
+      "value": 0.0,
+      "unit": ""
+    }
+  ],
+  "config": {
+    "cache_ttl_seconds": "86400"
+  },
+  "recent_deployments": [
+    {
+      "timestamp": "2026-08-30T08:55:00Z",
+      "description": "deploy: price update pipeline changed, cache invalidation step accidentally removed"
+    }
+  ],
+  "environment": {
+    "region": "us-east-1",
+    "replicas": "4"
+  }
+}

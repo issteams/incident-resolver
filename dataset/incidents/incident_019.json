@@ -1,0 +1,42 @@
+{
+  "id": "incident_019",
+  "service": "video-transcode-worker",
+  "summary": "Autoscaler not adding capacity despite backlog",
+  "logs": [
+    {
+      "timestamp": "2026-08-30T11:00:00Z",
+      "level": "INFO",
+      "message": "video-transcode-worker consuming jobs"
+    },
+    {
+      "timestamp": "2026-08-30T11:20:00Z",
+      "level": "WARN",
+      "message": "job backlog at 500, no new instances launched"
+    },
+    {
+      "timestamp": "2026-08-30T11:25:00Z",
+      "level": "ERROR",
+      "message": "autoscaler: max_instances limit (2) reached, cannot scale further"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "cpu_percent",
+      "value": 97,
+      "unit": "%"
+    }
+  ],
+  "config": {
+    "max_connections": "2"
+  },
+  "recent_deployments": [
+    {
+      "timestamp": "2026-08-30T10:00:00Z",
+      "description": "deploy: autoscaling group max_instances left at old default of 2 after traffic tripled last quarter"
+    }
+  ],
+  "environment": {
+    "region": "us-east-1",
+    "replicas": "2"
+  }
+}

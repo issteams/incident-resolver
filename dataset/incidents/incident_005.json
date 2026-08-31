@@ -1,0 +1,20 @@
+{
+  "id": "incident_005",
+  "service": "notification-worker",
+  "summary": "Queue backlog growing, workers appear idle",
+  "logs": [
+    {"timestamp": "2026-08-30T08:00:00Z", "level": "INFO", "message": "notification-worker started, consuming from queue"},
+    {"timestamp": "2026-08-30T08:20:00Z", "level": "WARN", "message": "queue depth 15000 and rising"},
+    {"timestamp": "2026-08-30T08:21:00Z", "level": "ERROR", "message": "circuit breaker OPEN for downstream email provider"}
+  ],
+  "metrics": [
+    {"name": "error_rate", "value": 0.02, "unit": ""},
+    {"name": "cpu_percent", "value": 8, "unit": "%"}
+  ],
+  "config": {
+    "circuit_breaker_enabled": "true",
+    "retry_count": "5"
+  },
+  "recent_deployments": [],
+  "environment": {"region": "us-west-2", "replicas": "2"}
+}

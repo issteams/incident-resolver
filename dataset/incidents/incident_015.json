@@ -1,0 +1,40 @@
+{
+  "id": "incident_015",
+  "service": "edge-load-balancer",
+  "summary": "50% of requests routed to unhealthy backend pool",
+  "logs": [
+    {
+      "timestamp": "2026-08-30T07:00:00Z",
+      "level": "INFO",
+      "message": "load balancer healthy"
+    },
+    {
+      "timestamp": "2026-08-30T07:05:00Z",
+      "level": "WARN",
+      "message": "health check misconfigured: checking wrong port 8080 instead of 8443"
+    },
+    {
+      "timestamp": "2026-08-30T07:05:30Z",
+      "level": "ERROR",
+      "message": "backend pool B marked unhealthy incorrectly, traffic still routed"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "error_rate",
+      "value": 0.5,
+      "unit": ""
+    }
+  ],
+  "config": {},
+  "recent_deployments": [
+    {
+      "timestamp": "2026-08-30T06:58:00Z",
+      "description": "deploy: load balancer config update changed health check port"
+    }
+  ],
+  "environment": {
+    "region": "us-west-2",
+    "replicas": "4"
+  }
+}

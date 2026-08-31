@@ -1,0 +1,19 @@
+{
+  "id": "incident_006",
+  "service": "reporting-api",
+  "summary": "Nightly report generation started failing",
+  "logs": [
+    {"timestamp": "2026-08-30T02:00:00Z", "level": "INFO", "message": "reporting-api job started"},
+    {"timestamp": "2026-08-30T02:05:00Z", "level": "ERROR", "message": "MemoryError: unable to allocate array, out of memory"},
+    {"timestamp": "2026-08-30T02:05:01Z", "level": "CRITICAL", "message": "worker process killed by OOM killer"}
+  ],
+  "metrics": [
+    {"name": "memory_percent", "value": 98, "unit": "%"},
+    {"name": "cpu_percent", "value": 60, "unit": "%"}
+  ],
+  "config": {},
+  "recent_deployments": [
+    {"timestamp": "2026-08-30T01:50:00Z", "description": "deploy: switched report export from streaming to in-memory pandas dataframe"}
+  ],
+  "environment": {"region": "us-east-1", "replicas": "1"}
+}

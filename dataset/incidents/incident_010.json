@@ -1,0 +1,42 @@
+{
+  "id": "incident_010",
+  "service": "public-api",
+  "summary": "Legitimate customers getting 429 responses after traffic policy change",
+  "logs": [
+    {
+      "timestamp": "2026-08-30T10:00:00Z",
+      "level": "INFO",
+      "message": "public-api healthy"
+    },
+    {
+      "timestamp": "2026-08-30T10:05:00Z",
+      "level": "WARN",
+      "message": "rate limiter rejecting 40% of requests with 429"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "error_rate",
+      "value": 0.4,
+      "unit": ""
+    },
+    {
+      "name": "latency_ms",
+      "value": 80,
+      "unit": "ms"
+    }
+  ],
+  "config": {
+    "retry_count": "0"
+  },
+  "recent_deployments": [
+    {
+      "timestamp": "2026-08-30T09:58:00Z",
+      "description": "deploy: tightened per-IP rate limit from 1000rpm to 100rpm"
+    }
+  ],
+  "environment": {
+    "region": "us-west-2",
+    "replicas": "6"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "incident_003",
+  "service": "auth-service",
+  "summary": "Login failures increasing after latest deploy",
+  "logs": [
+    {"timestamp": "2026-08-30T11:00:00Z", "level": "INFO", "message": "auth-service started"},
+    {"timestamp": "2026-08-30T11:02:30Z", "level": "ERROR", "message": "jwt.exceptions.InvalidSignatureError: Signature verification failed"},
+    {"timestamp": "2026-08-30T11:02:45Z", "level": "ERROR", "message": "jwt.exceptions.InvalidSignatureError: Signature verification failed"},
+    {"timestamp": "2026-08-30T11:03:10Z", "level": "ERROR", "message": "jwt.exceptions.InvalidSignatureError: Signature verification failed"}
+  ],
+  "metrics": [
+    {"name": "error_rate", "value": 0.44, "unit": ""},
+    {"name": "latency_ms", "value": 90, "unit": "ms"}
+  ],
+  "config": {
+    "timeout_ms": "3000"
+  },
+  "recent_deployments": [
+    {"timestamp": "2026-08-30T10:58:00Z", "description": "deploy: rotated JWT signing secret without updating downstream verifier config"}
+  ],
+  "environment": {"region": "us-east-1", "replicas": "3"}
+}

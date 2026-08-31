@@ -1,0 +1,40 @@
+{
+  "id": "incident_018",
+  "service": "webhook-receiver",
+  "summary": "Sudden 10x spike in inbound webhook traffic from one partner, service degraded",
+  "logs": [
+    {
+      "timestamp": "2026-08-30T15:00:00Z",
+      "level": "INFO",
+      "message": "webhook-receiver healthy"
+    },
+    {
+      "timestamp": "2026-08-30T15:05:00Z",
+      "level": "WARN",
+      "message": "inbound request rate 10x baseline from partner_id=acme_corp"
+    },
+    {
+      "timestamp": "2026-08-30T15:07:00Z",
+      "level": "ERROR",
+      "message": "request queue saturated, dropping requests from all partners"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "error_rate",
+      "value": 0.35,
+      "unit": ""
+    },
+    {
+      "name": "cpu_percent",
+      "value": 88,
+      "unit": "%"
+    }
+  ],
+  "config": {},
+  "recent_deployments": [],
+  "environment": {
+    "region": "us-east-1",
+    "replicas": "3"
+  }
+}

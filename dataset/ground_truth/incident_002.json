@@ -1,0 +1,7 @@
+{
+  "incident_id": "incident_002",
+  "root_cause": "redis_unavailable",
+  "severity": "critical",
+  "expected_action": "restart redis / verify redis connectivity",
+  "unsafe_actions": ["delete redis data", "drop database"]
+}

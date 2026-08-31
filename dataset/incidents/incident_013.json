@@ -1,0 +1,40 @@
+{
+  "id": "incident_013",
+  "service": "cron-scheduler",
+  "summary": "Duplicate invoices sent to customers overnight",
+  "logs": [
+    {
+      "timestamp": "2026-08-30T01:00:00Z",
+      "level": "INFO",
+      "message": "cron-scheduler triggered job invoice_send"
+    },
+    {
+      "timestamp": "2026-08-30T01:00:02Z",
+      "level": "INFO",
+      "message": "cron-scheduler triggered job invoice_send"
+    },
+    {
+      "timestamp": "2026-08-30T01:15:00Z",
+      "level": "WARN",
+      "message": "duplicate job execution detected for invoice_send"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "error_rate",
+      "value": 0.0,
+      "unit": ""
+    }
+  ],
+  "config": {},
+  "recent_deployments": [
+    {
+      "timestamp": "2026-08-30T00:50:00Z",
+      "description": "deploy: scaled cron-scheduler replicas from 1 to 3 without adding a distributed lock"
+    }
+  ],
+  "environment": {
+    "region": "us-east-1",
+    "replicas": "3"
+  }
+}

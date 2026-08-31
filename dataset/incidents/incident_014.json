@@ -1,0 +1,40 @@
+{
+  "id": "incident_014",
+  "service": "orders-db-migrator",
+  "summary": "Schema migration job hanging, writes blocked on orders table",
+  "logs": [
+    {
+      "timestamp": "2026-08-30T04:00:00Z",
+      "level": "INFO",
+      "message": "migration job started: add index on orders.customer_id"
+    },
+    {
+      "timestamp": "2026-08-30T04:05:00Z",
+      "level": "WARN",
+      "message": "migration still running, holding ACCESS EXCLUSIVE lock on orders"
+    },
+    {
+      "timestamp": "2026-08-30T04:10:00Z",
+      "level": "ERROR",
+      "message": "application writes to orders table timing out"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "latency_ms",
+      "value": 8000,
+      "unit": "ms"
+    }
+  ],
+  "config": {},
+  "recent_deployments": [
+    {
+      "timestamp": "2026-08-30T04:00:00Z",
+      "description": "deploy: ran blocking schema migration during peak traffic"
+    }
+  ],
+  "environment": {
+    "region": "us-east-1",
+    "replicas": "1"
+  }
+}

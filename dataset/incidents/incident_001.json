@@ -1,0 +1,27 @@
+{
+  "id": "incident_001",
+  "service": "checkout-api",
+  "summary": "HTTP 500 error rate spiked to 38% starting 09:12 UTC",
+  "logs": [
+    {"timestamp": "2026-08-30T09:10:02Z", "level": "INFO", "message": "checkout-api started handling requests normally"},
+    {"timestamp": "2026-08-30T09:12:15Z", "level": "ERROR", "message": "psycopg2.OperationalError: connection pool exhausted, timeout after 5000ms"},
+    {"timestamp": "2026-08-30T09:12:19Z", "level": "ERROR", "message": "psycopg2.OperationalError: connection pool exhausted, timeout after 5000ms"},
+    {"timestamp": "2026-08-30T09:13:01Z", "level": "ERROR", "message": "psycopg2.OperationalError: connection pool exhausted, timeout after 5000ms"},
+    {"timestamp": "2026-08-30T09:14:40Z", "level": "WARN", "message": "request queue depth exceeds 200"}
+  ],
+  "metrics": [
+    {"name": "error_rate", "value": 0.38, "unit": ""},
+    {"name": "latency_ms", "value": 5200, "unit": "ms"},
+    {"name": "connection_pool_utilization", "value": 0.99, "unit": ""},
+    {"name": "cpu_percent", "value": 41, "unit": "%"}
+  ],
+  "config": {
+    "max_connections": "10",
+    "pool_size": "10",
+    "timeout_ms": "5000"
+  },
+  "recent_deployments": [
+    {"timestamp": "2026-08-30T09:00:00Z", "description": "deploy: reduced db pool_size from 30 to 10 (cost optimization)"}
+  ],
+  "environment": {"region": "us-east-1", "replicas": "6"}
+}

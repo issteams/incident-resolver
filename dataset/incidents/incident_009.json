@@ -1,0 +1,36 @@
+{
+  "id": "incident_009",
+  "service": "media-upload-service",
+  "summary": "Uploads failing, disk write errors in logs",
+  "logs": [
+    {
+      "timestamp": "2026-08-30T05:00:00Z",
+      "level": "INFO",
+      "message": "media-upload-service healthy"
+    },
+    {
+      "timestamp": "2026-08-30T05:40:00Z",
+      "level": "ERROR",
+      "message": "OSError: [Errno 28] No space left on device"
+    },
+    {
+      "timestamp": "2026-08-30T05:40:05Z",
+      "level": "ERROR",
+      "message": "OSError: [Errno 28] No space left on device"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "cpu_percent",
+      "value": 15,
+      "unit": "%"
+    }
+  ],
+  "config": {},
+  "recent_deployments": [],
+  "environment": {
+    "region": "eu-west-1",
+    "replicas": "2",
+    "disk_usage_percent": "100"
+  }
+}

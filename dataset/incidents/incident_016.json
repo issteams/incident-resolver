@@ -1,0 +1,42 @@
+{
+  "id": "incident_016",
+  "service": "events-worker",
+  "summary": "Single poison message stalling entire queue consumer",
+  "logs": [
+    {
+      "timestamp": "2026-08-30T09:30:00Z",
+      "level": "INFO",
+      "message": "events-worker consuming queue normally"
+    },
+    {
+      "timestamp": "2026-08-30T09:35:00Z",
+      "level": "ERROR",
+      "message": "json.JSONDecodeError: malformed message, worker retrying indefinitely"
+    },
+    {
+      "timestamp": "2026-08-30T09:50:00Z",
+      "level": "WARN",
+      "message": "queue depth growing, no messages processed in 15 minutes"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "error_rate",
+      "value": 1.0,
+      "unit": ""
+    },
+    {
+      "name": "cpu_percent",
+      "value": 5,
+      "unit": "%"
+    }
+  ],
+  "config": {
+    "retry_count": "999"
+  },
+  "recent_deployments": [],
+  "environment": {
+    "region": "us-east-1",
+    "replicas": "2"
+  }
+}
